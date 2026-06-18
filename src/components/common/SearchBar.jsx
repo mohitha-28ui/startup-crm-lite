@@ -31,12 +31,12 @@ function SearchBar({ value, onChange }) {
 
   return (
     <div className="relative flex-1">
-      <Search size={18} className="absolute left-3.5 top-3.5 text-slate-400 pointer-events-none" />
+      <Search size={18} className="absolute left-3.5 top-3.5 text-slate-400 dark:text-gray-500 pointer-events-none" />
       <input
         type="text"
         placeholder="Search by name, company, or email..."
         aria-label="Search leads by name, company, or email"
-        className="w-full pl-11 pr-10 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 text-sm"
+        className="w-full pl-11 pr-10 py-3 border border-slate-200 dark:border-gray-700 rounded-xl bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-gray-850 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:border-blue-500 transition-all duration-200 text-sm"
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
       />
@@ -44,7 +44,7 @@ function SearchBar({ value, onChange }) {
         <button
           type="button"
           onClick={handleClear}
-          className="absolute right-3 top-3.5 p-0.5 text-slate-400 hover:text-slate-600 transition-colors duration-200 cursor-pointer"
+          className="absolute right-3 top-3.5 p-0.5 text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 transition-colors duration-200 cursor-pointer"
           aria-label="Clear search"
         >
           <X size={16} />

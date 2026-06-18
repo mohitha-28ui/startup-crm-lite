@@ -11,7 +11,7 @@ import FilterBar from "../components/common/FilterBar";
 import EmptyState from "../components/common/EmptyState";
 
 // Import Lucide React icons
-import { Plus, LayoutGrid, List } from "lucide-react";
+import { Plus, LayoutGrid, List, X } from "lucide-react";
 
 /**
  * Leads page component.
@@ -142,22 +142,22 @@ function Leads() {
   };
 
   return (
-    <div className="p-6 bg-slate-50 min-h-screen space-y-6">
+    <div className="p-4 sm:p-6 bg-slate-50 dark:bg-gray-950 min-h-screen space-y-6 transition-colors duration-200">
       {/* Toast Alert System Provider */}
       <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
 
       {/* Page Heading & Header Actions */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200/60 pb-5">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200/60 dark:border-gray-800 pb-5">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Lead Management</h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Lead Management</h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-gray-400 mt-1">
             Displaying {filteredLeads.length} of {leads.length} total opportunities
           </p>
         </div>
 
         <button
           onClick={handleOpenCreateModal}
-          className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-sm hover:shadow transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-2 px-5 py-3 w-full sm:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-sm hover:shadow transition-all duration-200 cursor-pointer min-h-[44px]"
         >
           <Plus size={18} className="stroke-[2.5]" />
           <span>Add New Lead</span>
@@ -165,16 +165,16 @@ function Leads() {
       </div>
 
       {/* Filters & Display Mode Toggles Panel */}
-      <div className="space-y-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+      <div className="space-y-4 bg-white dark:bg-gray-900 p-4 rounded-2xl border border-slate-100 dark:border-gray-800 shadow-sm">
         <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
-          {/* Toggle Display Layout Buttons */}
-          <div className="flex items-center bg-slate-50 p-1 border border-slate-200 rounded-xl shrink-0">
+          {/* Toggle Display Layout Buttons: Visible ONLY on Tablet (md to lg). Hidden on mobile (< md) and desktop (lg+) */}
+          <div className="hidden md:flex lg:hidden items-center bg-slate-50 dark:bg-gray-800 p-1 border border-slate-200 dark:border-gray-700 rounded-xl shrink-0">
             <button
               onClick={() => setViewMode("table")}
-              className={`p-2 rounded-lg transition-all duration-150 cursor-pointer ${
-                viewMode === "table" ? "bg-white shadow-sm text-blue-600" : "text-slate-400 hover:text-slate-600"
+              className={`w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-150 cursor-pointer ${
+                viewMode === "table" ? "bg-white dark:bg-gray-900 shadow-sm text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300"
               }`}
               title="Table View"
               aria-label="Table View"
@@ -184,8 +184,8 @@ function Leads() {
 
             <button
               onClick={() => setViewMode("cards")}
-              className={`p-2 rounded-lg transition-all duration-150 cursor-pointer ${
-                viewMode === "cards" ? "bg-white shadow-sm text-blue-600" : "text-slate-400 hover:text-slate-600"
+              className={`w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-150 cursor-pointer ${
+                viewMode === "cards" ? "bg-white dark:bg-gray-900 shadow-sm text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300"
               }`}
               title="Card View"
               aria-label="Card View"
@@ -205,17 +205,19 @@ function Leads() {
       {/* Main Content Area */}
       {filteredLeads.length === 0 ? (
         <EmptyState totalCount={leads.length} onClearFilters={handleClearFilters} />
-      ) : viewMode === "table" ? (
+      ) : (
         <>
-          {/* Responsive Layout: Desktop shows table, mobile stacks as cards automatically */}
-          <div className="hidden md:block">
+          {/* 1. Desktop & Tablet Table Layout (CSS Responsive Toggle) */}
+          <div className={`hidden lg:block ${viewMode === "table" ? "md:block" : "md:hidden"}`}>
             <LeadTable
               leads={filteredLeads}
               onEdit={handleOpenEditModal}
               onDelete={handleDeleteClick}
             />
           </div>
-          <div className="block md:hidden grid grid-cols-1 gap-4">
+
+          {/* 2. Mobile & Tablet Cards Grid Layout (CSS Responsive Toggle) */}
+          <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden ${viewMode === "cards" ? "md:grid" : "md:hidden"}`}>
             {filteredLeads.map((lead) => (
               <LeadCard
                 key={lead.id}
@@ -226,32 +228,31 @@ function Leads() {
             ))}
           </div>
         </>
-      ) : (
-        /* Card View: Responsive grid spacing */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredLeads.map((lead) => (
-            <LeadCard
-              key={lead.id}
-              lead={lead}
-              onEdit={handleOpenEditModal}
-              onDelete={handleDeleteClick}
-            />
-          ))}
-        </div>
       )}
 
       {/* Modal Dialog Form Wrapper */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-slate-900/40 dark:bg-slate-950/60 md:backdrop-blur-sm z-50 flex items-stretch md:items-center md:justify-center p-0 md:p-4"
           onClick={handleCloseModal}
           role="dialog"
           aria-modal="true"
         >
+          {/* Inner Dialog Box: Fills screen on mobile, centered and max-w-lg on tablet+ */}
           <div
-            className="bg-white rounded-2xl border border-slate-100 max-w-2xl w-full p-6 shadow-2xl overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in duration-200"
+            className="bg-white dark:bg-gray-900 w-full h-full min-h-screen md:min-h-0 md:h-auto md:max-w-lg rounded-none md:rounded-2xl border-0 md:border border-slate-100 dark:border-gray-800 p-5 sm:p-6 shadow-none md:shadow-2xl overflow-y-auto max-h-screen md:max-h-[90vh] animate-in fade-in zoom-in duration-200 relative"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile Close Button (Top right, tap target 44x44px) */}
+            <button
+              onClick={handleCloseModal}
+              type="button"
+              className="md:hidden absolute top-3 right-3 w-11 h-11 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800 rounded-xl cursor-pointer transition-colors duration-200"
+              aria-label="Close dialog modal"
+            >
+              <X size={20} />
+            </button>
+
             <LeadForm
               initialData={selectedLead}
               onSubmit={handleFormSubmit}

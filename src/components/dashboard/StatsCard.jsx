@@ -20,33 +20,33 @@ function StatsCard({ title, value, icon: IconComponent, change, color = "primary
   // Mapping semantic color categories to tailwind colors using brand tokens
   const colorMap = {
     primary: {
-      bg: "bg-blue-50 text-blue-600 border-blue-100",
-      text: "text-blue-600",
+      bg: "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/30",
+      text: "text-blue-600 dark:text-blue-400",
     },
     success: {
-      bg: "bg-green-50 text-green-600 border-green-100",
-      text: "text-green-600",
+      bg: "bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 border-green-100 dark:border-green-900/30",
+      text: "text-green-600 dark:text-green-400",
     },
     warning: {
-      bg: "bg-amber-50 text-amber-600 border-amber-100",
-      text: "text-amber-600",
+      bg: "bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/30",
+      text: "text-amber-600 dark:text-amber-400",
     },
     danger: {
-      bg: "bg-red-50 text-red-600 border-red-100",
-      text: "text-red-600",
+      bg: "bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/30",
+      text: "text-red-600 dark:text-red-400",
     },
   };
 
   const selectedColor = colorMap[color] || colorMap.primary;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-slate-100 dark:border-gray-800 p-6 hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
       <div className="flex justify-between items-start">
         <div className="space-y-2">
-          <p className="text-sm font-medium text-slate-500 tracking-wide uppercase">
+          <p className="text-sm font-medium text-slate-500 dark:text-gray-400 tracking-wide uppercase">
             {title}
           </p>
-          <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h3 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             {value}
           </h3>
         </div>
@@ -62,8 +62,8 @@ function StatsCard({ title, value, icon: IconComponent, change, color = "primary
         <span
           className={`flex items-center gap-0.5 text-xs font-semibold px-2 py-0.5 rounded-full ${
             isPositive
-              ? "bg-green-50 text-green-700 border border-green-200"
-              : "bg-red-50 text-red-700 border border-red-200"
+              ? "bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900/30"
+              : "bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/30"
           }`}
         >
           {isPositive ? (
@@ -73,7 +73,7 @@ function StatsCard({ title, value, icon: IconComponent, change, color = "primary
           )}
           {displayChange}
         </span>
-        <span className="text-xs text-slate-400">vs last month</span>
+        <span className="text-xs text-slate-400 dark:text-gray-500">vs last month</span>
       </div>
     </div>
   );

@@ -56,12 +56,12 @@ function Dashboard() {
   const conversionRate = totalLeads > 0 ? Math.round((wonLeads / totalLeads) * 100) : 0;
 
   return (
-    <div className="p-6 bg-slate-50 min-h-screen space-y-6">
+    <div className="p-4 sm:p-6 bg-slate-50 dark:bg-gray-950 min-h-screen space-y-6 transition-colors duration-200">
       {/* Visual greeting banner */}
       <HeroSection />
 
       {/* Metrics Card Grid: 1 column on mobile, 2 on tablet, 4 on desktop */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
           title="Total Leads"
           value={totalLeads}

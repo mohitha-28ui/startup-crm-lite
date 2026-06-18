@@ -34,38 +34,38 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-100 dark:border-gray-800 shadow-sm overflow-hidden transition-colors duration-200">
       {leads.length === 0 ? (
-        <div className="text-center py-12 bg-slate-50">
-          <p className="text-sm text-slate-400 font-medium">No leads currently in the list.</p>
+        <div className="text-center py-12 bg-slate-50 dark:bg-gray-800/40">
+          <p className="text-sm text-slate-400 dark:text-gray-500 font-medium">No leads currently in the list.</p>
         </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/70 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              <tr className="border-b border-slate-100 dark:border-gray-800 bg-slate-50/70 dark:bg-gray-800/50 text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider">
                 <th className="py-4 pl-6">Contact Name</th>
                 <th className="py-4">Company</th>
                 <th className="py-4">Pipeline Status</th>
                 <th className="py-4">Email Address</th>
-                <th className="py-4">Lead Source</th>
-                <th className="py-4">Date Added</th>
+                <th className="py-4 hidden lg:table-cell">Lead Source</th>
+                <th className="py-4 hidden lg:table-cell">Date Added</th>
                 <th className="py-4 text-right pr-6">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50 text-sm">
+            <tbody className="divide-y divide-slate-50 dark:divide-gray-800 text-sm">
               {leads.map((lead) => (
                 <tr
                   key={lead.id || lead.name}
-                  className="hover:bg-slate-50/50 transition-colors duration-150 group"
+                  className="hover:bg-slate-50/50 dark:hover:bg-gray-800/30 transition-colors duration-150 group"
                 >
                   {/* Name */}
-                  <td className="py-4 pl-6 font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">
+                  <td className="py-4 pl-6 font-semibold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-455 transition-colors">
                     {lead.name}
                   </td>
                   
                   {/* Company */}
-                  <td className="py-4 text-slate-600">
+                  <td className="py-4 text-slate-600 dark:text-gray-300">
                     {lead.company}
                   </td>
                   
@@ -75,23 +75,23 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
                   </td>
                   
                   {/* Email */}
-                  <td className="py-4 text-slate-600">
+                  <td className="py-4 text-slate-600 dark:text-gray-300">
                     <a
                       href={`mailto:${lead.email}`}
-                      className="hover:text-blue-600 inline-flex items-center gap-1.5 transition-colors"
+                      className="hover:text-blue-600 dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors"
                     >
                       <span>{lead.email}</span>
-                      <Mail size={12} className="text-slate-350" />
+                      <Mail size={12} className="text-slate-350 dark:text-gray-500" />
                     </a>
                   </td>
                   
                   {/* Source */}
-                  <td className="py-4 text-slate-500 font-medium">
+                  <td className="py-4 text-slate-500 dark:text-gray-400 font-medium hidden lg:table-cell">
                     {lead.source || "Website"}
                   </td>
                   
                   {/* Date Added */}
-                  <td className="py-4 text-slate-400 text-xs">
+                  <td className="py-4 text-slate-400 dark:text-gray-500 text-xs hidden lg:table-cell">
                     {formatDate(lead.dateAdded)}
                   </td>
                   
@@ -100,7 +100,7 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
                     <div className="flex items-center justify-end gap-1.5 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <button
                         onClick={() => onEdit(lead)}
-                        className="p-1.5 hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-lg transition-colors cursor-pointer"
+                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-350 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors cursor-pointer"
                         title="Edit Lead"
                         aria-label={`Edit ${lead.name}`}
                       >
@@ -108,7 +108,7 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
                       </button>
                       <button
                         onClick={() => onDelete(lead.id)}
-                        className="p-1.5 hover:bg-slate-100 text-slate-600 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
+                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-350 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
                         title="Delete Lead"
                         aria-label={`Delete ${lead.name}`}
                       >

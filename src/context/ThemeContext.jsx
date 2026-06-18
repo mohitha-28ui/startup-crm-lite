@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export const ThemeContext = createContext();
 
@@ -11,30 +12,14 @@ export const ThemeContext = createContext();
  * @returns {React.JSX.Element} The ThemeProvider component.
  */
 export function ThemeProvider({ children }) {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    try {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        return savedTheme === "dark";
-      }
-    } catch (error) {
-      console.error("Failed to parse theme from localStorage:", error);
-    }
-    return false;
-  });
+  const [isDarkMode, setIsDarkMode] = useLocalStorage("startup-crm-theme", false);
 
   useEffect(() => {
-    try {
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("theme", "light");
-      }
-    } catch (error) {
-      console.error("Failed to apply theme to documentElement or set in localStorage:", error);
+    if (typeof document === "undefined") {
+      return;
     }
+
+    document.documentElement.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
 
   /**

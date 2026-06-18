@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { sampleLeads } from "../data/sampleLeads";
 
 /**
  * TypeScript-style shape of the Lead object:
@@ -26,33 +28,7 @@ export const LeadContext = createContext();
  * @returns {React.JSX.Element} The LeadProvider component.
  */
 export function LeadProvider({ children }) {
-  const [leads, setLeads] = useState(() => {
-    try {
-      const savedLeads = localStorage.getItem("leads");
-      if (savedLeads) {
-        return JSON.parse(savedLeads);
-      }
-    } catch (error) {
-      console.error("Failed to parse leads from localStorage:", error);
-    }
-    // Default initial mock data if localStorage is empty
-    return [
-      {
-        id: "1",
-        name: "Sarah Jenkins",
-        company: "Acme Corp",
-        email: "sarah@acmecorp.com",
-        phone: "555-0143",
-        status: "Contacted",
-        source: "LinkedIn",
-        createdAt: new Date("2026-06-14").toISOString(),
-      },
-    ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("leads", JSON.stringify(leads));
-  }, [leads]);
+  const [leads, setLeads] = useLocalStorage("startup-crm-leads", sampleLeads);
 
   /**
    * Adds a new lead to the list, generating a unique ID and a createdAt timestamp.
@@ -64,6 +40,11 @@ export function LeadProvider({ children }) {
       ...leadData,
       id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
+      dateAdded: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
     };
     setLeads((prevLeads) => [...prevLeads, newLead]);
   };

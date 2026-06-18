@@ -101,24 +101,24 @@ function PipelineOverview({ leads = [] }) {
     .filter((segment) => segment.count > 0); // Only render/show active stages
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-100 dark:border-gray-800 p-6 shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Pipeline Deal Flow</h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Pipeline Deal Flow</h2>
+          <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
             Distribution of {totalCount} {totalCount === 1 ? "lead" : "leads"} totaling {formatCurrency(totalValue)}
           </p>
         </div>
       </div>
 
       {totalCount === 0 ? (
-        <div className="flex flex-col items-center justify-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-          <p className="text-sm text-slate-400 font-medium">No leads currently in the pipeline.</p>
+        <div className="flex flex-col items-center justify-center py-8 bg-slate-50 dark:bg-gray-850/50 rounded-xl border border-dashed border-slate-200 dark:border-gray-800">
+          <p className="text-sm text-slate-400 dark:text-gray-500 font-medium">No leads currently in the pipeline.</p>
         </div>
       ) : (
         <div className="space-y-6">
           {/* Segmented Progress Bar */}
-          <div className="h-5 w-full bg-slate-100 rounded-full flex overflow-hidden shadow-inner">
+          <div className="h-5 w-full bg-slate-100 dark:bg-gray-800 rounded-full flex overflow-hidden shadow-inner">
             {segments.map((segment) => (
               <div
                 key={segment.key}
@@ -146,19 +146,19 @@ function PipelineOverview({ leads = [] }) {
                   key={key}
                   className={`p-3 rounded-xl border transition-all duration-200 ${
                     isActive
-                      ? "border-slate-100 bg-slate-50/50 hover:bg-slate-50"
-                      : "border-slate-50 opacity-40"
+                      ? "border-slate-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-850/50 hover:bg-slate-50 dark:hover:bg-gray-800"
+                      : "border-slate-50 dark:border-gray-900/40 opacity-40"
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <span className={`w-2.5 h-2.5 rounded-full ${config.colorClass}`}></span>
-                    <span className="text-xs font-semibold text-slate-700">{config.label}</span>
+                    <span className="text-xs font-semibold text-slate-700 dark:text-gray-300">{config.label}</span>
                   </div>
                   <div className="mt-2 space-y-0.5">
-                    <p className="text-lg font-bold text-slate-900">
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">
                       {summary.count}
                     </p>
-                    <p className="text-[10px] text-slate-400 font-medium">
+                    <p className="text-[10px] text-slate-400 dark:text-gray-500 font-medium">
                       {formatCurrency(summary.value)} ({pct}%)
                     </p>
                   </div>
