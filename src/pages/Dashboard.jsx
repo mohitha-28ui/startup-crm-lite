@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { LeadContext } from "../context/LeadContext";
+import React from "react";
+import { useLeads } from "../context/LeadContext";
 
 // Import layout / sub-dashboard components
 import HeroSection from "../components/dashboard/HeroSection";
@@ -20,7 +20,7 @@ import { Users, Award, XCircle, Target } from "lucide-react";
  * @returns {React.JSX.Element} The rendered Dashboard page.
  */
 function Dashboard() {
-  const { leads: contextLeads = [] } = useContext(LeadContext);
+  const { leads: contextLeads = [] } = useLeads();
 
   // 1. Establish robust baseline mock data for immediate visual impact
   const defaultSampleLeads = [

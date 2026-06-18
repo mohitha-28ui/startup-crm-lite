@@ -1,14 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
-import { LeadContext } from "../context/LeadContext";
+import { useState, useEffect } from "react";
+import { useLeads } from "../context/LeadContext";
 import { Toaster, toast } from "react-hot-toast";
 
 // Import custom lead widgets
 import LeadForm from "../components/leads/LeadForm";
 import LeadCard from "../components/leads/LeadCard";
 import LeadTable from "../components/leads/LeadTable";
+import SearchBar from "../components/common/SearchBar";
+import FilterBar from "../components/common/FilterBar";
+import EmptyState from "../components/common/EmptyState";
 
 // Import Lucide React icons
-import { Plus, LayoutGrid, List, Search, Filter, Briefcase, RefreshCw } from "lucide-react";
+import { Plus, LayoutGrid, List } from "lucide-react";
 
 /**
  * Leads page component.
@@ -19,8 +22,8 @@ import { Plus, LayoutGrid, List, Search, Filter, Briefcase, RefreshCw } from "lu
  * @returns {React.JSX.Element} The rendered Leads page.
  */
 function Leads() {
-  // Bind CRUD actions from LeadContext
-  const { leads = [], addLead, updateLead, deleteLead } = useContext(LeadContext);
+  // Bind CRUD actions using custom useLeads hook
+  const { leads = [], addLead, updateLead, deleteLead } = useLeads();
 
   // Layout and dialog state variables
   const [viewMode, setViewMode] = useState("table"); // 'table' | 'cards'
@@ -29,7 +32,15 @@ function Leads() {
 
   // Search & Filter state variables
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  /**
+   * Closes the form modal and resets context.
+   */
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedLead(null);
+  };
 
   // Keyboard accessibility: Close modal on pressing Escape key
   useEffect(() => {
@@ -59,13 +70,6 @@ function Leads() {
     setIsModalOpen(true);
   };
 
-  /**
-   * Closes the form modal and resets context.
-   */
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedLead(null);
-  };
 
   /**
    * Submission handler for LeadForm.
@@ -108,7 +112,7 @@ function Leads() {
   const handleDeleteClick = (id) => {
     const leadToDelete = leads.find((l) => l.id === id);
     const leadName = leadToDelete ? leadToDelete.name : "Lead";
-    
+
     if (window.confirm(`Are you sure you want to delete the lead "${leadName}"?`)) {
       deleteLead(id);
       toast.error(`Removed lead "${leadName}"`, {
@@ -123,17 +127,19 @@ function Leads() {
     }
   };
 
-  // Filter leads based on search text and status stage selections
-  const filteredLeads = leads.filter((lead) => {
-    const nameMatch = (lead.name || "").toLowerCase().includes(searchQuery.toLowerCase());
-    const companyMatch = (lead.company || "").toLowerCase().includes(searchQuery.toLowerCase());
-    const emailMatch = (lead.email || "").toLowerCase().includes(searchQuery.toLowerCase());
-    const searchMatch = nameMatch || companyMatch || emailMatch;
+  const filteredLeads = leads
+    .filter((lead) => activeFilter === "All" || lead.status === activeFilter)
+    .filter(
+      (lead) =>
+        (lead.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (lead.company || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (lead.email || "").toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-    const statusMatch = statusFilter === "All" || String(lead.status || "").toLowerCase().trim() === statusFilter.toLowerCase().trim();
-
-    return searchMatch && statusMatch;
-  });
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setActiveFilter("All");
+  };
 
   return (
     <div className="p-6 bg-slate-50 min-h-screen space-y-6">
@@ -159,40 +165,12 @@ function Leads() {
       </div>
 
       {/* Filters & Display Mode Toggles Panel */}
-      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-        {/* Search Input */}
-        <div className="relative flex-1">
-          <Search size={18} className="absolute left-3.5 top-3.5 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search by name, company, or email..."
-            className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 text-sm"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        {/* Filter Dropdown & Toggle Controls */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 relative flex-1 sm:flex-initial">
-            <Filter size={16} className="absolute left-3.5 text-slate-400 pointer-events-none" />
-            <select
-              className="w-full pl-10 pr-8 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 text-sm appearance-none cursor-pointer"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="All">All Statuses</option>
-              <option value="New">New</option>
-              <option value="Contacted">Contacted</option>
-              <option value="Meeting Scheduled">Meeting Scheduled</option>
-              <option value="Proposal Sent">Proposal Sent</option>
-              <option value="Won">Won</option>
-              <option value="Lost">Lost</option>
-            </select>
-          </div>
+      <div className="space-y-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+        <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
+          <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
           {/* Toggle Display Layout Buttons */}
-          <div className="flex items-center bg-slate-50 p-1 border border-slate-200 rounded-xl">
+          <div className="flex items-center bg-slate-50 p-1 border border-slate-200 rounded-xl shrink-0">
             <button
               onClick={() => setViewMode("table")}
               className={`p-2 rounded-lg transition-all duration-150 cursor-pointer ${
@@ -203,7 +181,7 @@ function Leads() {
             >
               <List size={18} className="stroke-[2.25]" />
             </button>
-            
+
             <button
               onClick={() => setViewMode("cards")}
               className={`p-2 rounded-lg transition-all duration-150 cursor-pointer ${
@@ -216,10 +194,18 @@ function Leads() {
             </button>
           </div>
         </div>
+
+        <FilterBar
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+          leads={leads}
+        />
       </div>
 
       {/* Main Content Area */}
-      {viewMode === "table" ? (
+      {filteredLeads.length === 0 ? (
+        <EmptyState totalCount={leads.length} onClearFilters={handleClearFilters} />
+      ) : viewMode === "table" ? (
         <>
           {/* Responsive Layout: Desktop shows table, mobile stacks as cards automatically */}
           <div className="hidden md:block">
@@ -254,17 +240,6 @@ function Leads() {
         </div>
       )}
 
-      {/* Empty State Fallback */}
-      {filteredLeads.length === 0 && (
-        <div className="flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-slate-100 shadow-sm text-center">
-          <Briefcase size={40} className="text-slate-300 stroke-[1.5] mb-3" />
-          <h3 className="font-bold text-slate-800 text-lg">No matching leads found</h3>
-          <p className="text-sm text-slate-400 mt-1 max-w-sm">
-            Try adjusting your search keywords, checking status filters, or register a new lead context.
-          </p>
-        </div>
-      )}
-
       {/* Modal Dialog Form Wrapper */}
       {isModalOpen && (
         <div
@@ -275,7 +250,7 @@ function Leads() {
         >
           <div
             className="bg-white rounded-2xl border border-slate-100 max-w-2xl w-full p-6 shadow-2xl overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in duration-200"
-            onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside form
+            onClick={(e) => e.stopPropagation()}
           >
             <LeadForm
               initialData={selectedLead}

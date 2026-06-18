@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
-import { LeadContext } from "../../context/LeadContext";
+import { useState } from "react";
+import { useLeads } from "../../context/LeadContext";
 
 function AddLeadForm() {
-  const { addLead } = useContext(LeadContext);
+  const { addLead } = useLeads();
 
   const [form, setForm] = useState({
     name: "",
