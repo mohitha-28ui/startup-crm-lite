@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import { LayoutDashboard, Users, BarChart3 } from "lucide-react";
+import { Toaster } from "react-hot-toast";
 
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="flex bg-slate-50 dark:bg-gray-950 text-slate-800 dark:text-gray-100 min-h-screen transition-colors duration-200">
         {/* Navigation Sidebar: collapses on tablet, drawer on mobile */}
         <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

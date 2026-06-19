@@ -13,7 +13,7 @@ export function DarkModeToggle() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs font-semibold text-slate-500 dark:text-gray-400 select-none">
+      <span className="text-xs font-semibold text-slate-500 dark:text-gray-400 select-none hidden sm:inline">
         {isDarkMode ? "Dark Mode" : "Light Mode"}
       </span>
       <button
