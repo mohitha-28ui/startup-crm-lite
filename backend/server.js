@@ -105,6 +105,7 @@ if (process.env.NODE_ENV === "production") {
  */
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  "https://startup-crm-lite-ten.vercel.app",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
@@ -149,10 +150,7 @@ app.use("/api/leads", leadRoutes);
  * Root Route
  */
 app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "Startup CRM Backend is running 🚀",
-  });
+  res.redirect("https://startup-crm-lite-ten.vercel.app");
 });
 
 /**
