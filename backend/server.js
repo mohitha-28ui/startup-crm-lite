@@ -146,17 +146,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
 
 /**
- * Serve React only in Production
+ * Root Route
  */
-if (process.env.NODE_ENV === "production") {
-  const frontendDistPath = path.join(__dirname, "../dist");
-
-  app.use(express.static(frontendDistPath));
-
-  app.get("/{*any}", (req, res) => {
-    res.sendFile(path.join(frontendDistPath, "index.html"));
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Startup CRM Backend is running 🚀",
   });
-}
+});
 
 /**
  * Error Handler
