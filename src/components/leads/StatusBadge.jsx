@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 
 /**
  * StatusBadge component displays a pill-shaped colored badge corresponding to the lead status.
@@ -53,4 +53,4 @@ function StatusBadge({ status }) {
   );
 }
 
-export default StatusBadge;
+export default memo(StatusBadge);

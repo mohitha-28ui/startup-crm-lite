@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Bell, Settings, Search, Menu } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import DarkModeToggle from "../common/DarkModeToggle";

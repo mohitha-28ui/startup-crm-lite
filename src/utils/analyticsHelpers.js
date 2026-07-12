@@ -357,14 +357,18 @@ export function getActivityHeatmapData(leads = []) {
       try {
         const dateStr = new Date(lead.meetingAt).toISOString().split("T")[0];
         activityMap[dateStr] = (activityMap[dateStr] || 0) + 1;
-      } catch {}
+      } catch {
+        // ignore date parsing error
+      }
     }
     // 3. Calls Logged / Contacted
     if (lead.contactedAt) {
       try {
         const dateStr = new Date(lead.contactedAt).toISOString().split("T")[0];
         activityMap[dateStr] = (activityMap[dateStr] || 0) + 1;
-      } catch {}
+      } catch {
+        // ignore date parsing error
+      }
     }
   });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useLeads } from "../context/LeadContext";
 import { useAnalytics } from "../hooks/useAnalytics";
 import AnalyticsFilters from "../components/analytics/AnalyticsFilters";
@@ -96,13 +96,13 @@ export function Analytics() {
       </div>
 
       {/* Funnel & Revenue Area Timelines */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FunnelChartCard data={analytics.funnelData} />
         <RevenueChartCard data={analytics.monthlyRevenue} />
       </div>
 
       {/* Sources & Representatives Leaderboard */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <LeadSourceChart data={analytics.leadSources} />
         <TopPerformersCard data={analytics.topPerformers} />
       </div>

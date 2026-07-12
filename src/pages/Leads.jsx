@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLeads } from "../context/LeadContext";
 import { Toaster, toast } from "react-hot-toast";
 
@@ -37,10 +37,10 @@ function Leads() {
   /**
    * Closes the form modal and resets context.
    */
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedLead(null);
-  };
+  }, []);
 
   // Keyboard accessibility: Close modal on pressing Escape key
   useEffect(() => {
@@ -51,31 +51,30 @@ function Leads() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isModalOpen]);
+  }, [isModalOpen, handleCloseModal]);
 
   /**
    * Opens the form modal in Create mode.
    */
-  const handleOpenCreateModal = () => {
+  const handleOpenCreateModal = useCallback(() => {
     setSelectedLead(null);
     setIsModalOpen(true);
-  };
+  }, []);
 
   /**
    * Opens the form modal in Edit mode.
    * @param {Object} lead - The lead to edit.
    */
-  const handleOpenEditModal = (lead) => {
+  const handleOpenEditModal = useCallback((lead) => {
     setSelectedLead(lead);
     setIsModalOpen(true);
-  };
-
+  }, []);
 
   /**
    * Submission handler for LeadForm.
    * @param {Object} formData - Form input values.
    */
-  const handleFormSubmit = (formData) => {
+  const handleFormSubmit = useCallback((formData) => {
     if (selectedLead) {
       // Update Mode
       updateLead(selectedLead.id, formData);
@@ -103,13 +102,13 @@ function Leads() {
       });
     }
     handleCloseModal();
-  };
+  }, [selectedLead, updateLead, addLead, handleCloseModal]);
 
   /**
    * Delete handler with styled red toast notifications.
    * @param {number|string} id - Lead ID.
    */
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = useCallback((id) => {
     const leadToDelete = leads.find((l) => l.id === id);
     const leadName = leadToDelete ? leadToDelete.name : "Lead";
 
@@ -125,21 +124,23 @@ function Leads() {
         },
       });
     }
-  };
+  }, [leads, deleteLead]);
 
-  const filteredLeads = leads
-    .filter((lead) => activeFilter === "All" || lead.status === activeFilter)
-    .filter(
-      (lead) =>
-        (lead.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (lead.company || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (lead.email || "").toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  const filteredLeads = useMemo(() => {
+    return leads
+      .filter((lead) => activeFilter === "All" || lead.status === activeFilter)
+      .filter(
+        (lead) =>
+          (lead.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (lead.company || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (lead.email || "").toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  }, [leads, activeFilter, searchQuery]);
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     setSearchQuery("");
     setActiveFilter("All");
-  };
+  }, []);
 
   return (
     <div className="p-4 sm:p-6 bg-slate-50 dark:bg-gray-950 min-h-screen space-y-6 transition-colors duration-200">
@@ -243,17 +244,18 @@ function Leads() {
             className="bg-white dark:bg-gray-900 w-full h-full min-h-screen md:min-h-0 md:h-auto md:max-w-lg rounded-none md:rounded-2xl border-0 md:border border-slate-100 dark:border-gray-800 p-5 sm:p-6 shadow-none md:shadow-2xl overflow-y-auto max-h-screen md:max-h-[90vh] animate-in fade-in zoom-in duration-200 relative"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Mobile Close Button (Top right, tap target 44x44px) */}
+            {/* Close Button (Top right, tap target 44x44px) */}
             <button
               onClick={handleCloseModal}
               type="button"
-              className="md:hidden absolute top-3 right-3 w-11 h-11 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800 rounded-xl cursor-pointer transition-colors duration-200"
+              className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800 rounded-xl cursor-pointer transition-colors duration-200"
               aria-label="Close dialog modal"
             >
               <X size={20} />
             </button>
 
             <LeadForm
+              key={selectedLead ? selectedLead.id : "new"}
               initialData={selectedLead}
               onSubmit={handleFormSubmit}
               onCancel={handleCloseModal}

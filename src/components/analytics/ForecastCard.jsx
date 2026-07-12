@@ -1,4 +1,5 @@
-import { TrendingUp, BarChart2 } from "lucide-react";
+import { useMemo } from "react";
+import { TrendingUp } from "lucide-react";
 
 /**
  * Format helper for Indian Rupees localized formatting.
@@ -77,8 +78,5 @@ export function ForecastCard({ value = 0, leads = [] }) {
     </div>
   );
 }
-
-// React import fix for useMemo
-import { useMemo } from "react";
 
 export default ForecastCard;

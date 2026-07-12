@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { STATUS_OPTIONS, SOURCE_OPTIONS } from "../../constants";
 
 /**
  * LeadForm component renders a form to create or edit lead information,
@@ -12,49 +13,20 @@ import React, { useState, useEffect } from "react";
  * @returns {React.JSX.Element} The rendered LeadForm component.
  */
 function LeadForm({ initialData = null, onSubmit, onCancel }) {
-  // Status and Source options requested by requirements
-  const STATUS_OPTIONS = ["New", "Contacted", "Meeting Scheduled", "Proposal Sent", "Won", "Lost"];
-  const SOURCE_OPTIONS = ["Website", "Referral", "LinkedIn", "Cold Call", "Email Campaign", "Other"];
 
-  // Local state for the lead object
+  // Local state for the lead object initialized from initialData
   const [form, setForm] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    status: "New",
-    source: "Website",
-    value: "",
+    name: initialData?.name || "",
+    company: initialData?.company || "",
+    email: initialData?.email || "",
+    phone: initialData?.phone || "",
+    status: initialData?.status || "New",
+    source: initialData?.source || "Website",
+    value: initialData?.value || "",
   });
 
   // Local state for validation errors
   const [errors, setErrors] = useState({});
-
-  // Sync state if initialData changes (e.g. switching between different leads for editing)
-  useEffect(() => {
-    if (initialData) {
-      setForm({
-        name: initialData.name || "",
-        company: initialData.company || "",
-        email: initialData.email || "",
-        phone: initialData.phone || "",
-        status: initialData.status || "New",
-        source: initialData.source || "Website",
-        value: initialData.value || "",
-      });
-    } else {
-      setForm({
-        name: "",
-        company: "",
-        email: "",
-        phone: "",
-        status: "New",
-        source: "Website",
-        value: "",
-      });
-    }
-    setErrors({});
-  }, [initialData]);
 
   /**
    * Validates form inputs and updates inline error states.

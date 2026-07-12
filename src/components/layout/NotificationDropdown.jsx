@@ -1,4 +1,3 @@
-import React from "react";
 import { UserPlus, Clock, Calendar, DollarSign, Trash2, Check, CheckCheck } from "lucide-react";
 
 /**

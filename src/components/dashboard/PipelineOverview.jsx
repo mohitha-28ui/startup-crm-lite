@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * PipelineOverview component displays a horizontal, segmented bar representing
  * the distribution of leads across different pipeline stages.

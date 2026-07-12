@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { X, Sun, Moon, LogOut, Save, ShieldAlert, Key, Globe, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { X, Sun, Moon, LogOut, Save, Globe, Eye, EyeOff } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import toast from "react-hot-toast";
 
@@ -101,8 +101,9 @@ export function SettingsDrawer({ isOpen, onClose }) {
 
               <div className="space-y-3">
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Full Name</label>
+                  <label htmlFor="settings-profile-name" className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Full Name</label>
                   <input
+                    id="settings-profile-name"
                     type="text"
                     required
                     className="w-full text-xs px-3.5 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:border-blue-400 dark:focus:border-gray-700 transition-all font-semibold"
@@ -112,8 +113,9 @@ export function SettingsDrawer({ isOpen, onClose }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Email Address</label>
+                  <label htmlFor="settings-profile-email" className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Email Address</label>
                   <input
+                    id="settings-profile-email"
                     type="email"
                     required
                     className="w-full text-xs px-3.5 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:border-blue-400 dark:focus:border-gray-700 transition-all font-semibold"
@@ -134,8 +136,9 @@ export function SettingsDrawer({ isOpen, onClose }) {
               </h4>
               <div className="space-y-3">
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Workspace Name</label>
+                  <label htmlFor="settings-workspace-name" className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Workspace Name</label>
                   <input
+                    id="settings-workspace-name"
                     type="text"
                     required
                     className="w-full text-xs px-3.5 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:border-blue-400 dark:focus:border-gray-700 transition-all font-semibold"
@@ -145,8 +148,9 @@ export function SettingsDrawer({ isOpen, onClose }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Timezone</label>
+                  <label htmlFor="settings-timezone" className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Timezone</label>
                   <select
+                    id="settings-timezone"
                     className="w-full text-xs px-3.5 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:border-blue-400 dark:focus:border-gray-700 transition-all font-semibold cursor-pointer"
                     value={timezone}
                     onChange={(e) => setTimezone(e.target.value)}
@@ -282,9 +286,10 @@ export function SettingsDrawer({ isOpen, onClose }) {
               </h4>
               <div className="space-y-3">
                 <div className="space-y-1 relative">
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Current Password</label>
+                  <label htmlFor="settings-password-current" className="text-[11px] font-bold text-slate-500 dark:text-gray-400">Current Password</label>
                   <div className="relative">
                     <input
+                      id="settings-password-current"
                       type={showPassword ? "text" : "password"}
                       className="w-full text-xs pl-3.5 pr-10 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 transition-all font-semibold"
                       placeholder="••••••••"
@@ -294,7 +299,8 @@ export function SettingsDrawer({ isOpen, onClose }) {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600 dark:hover:text-gray-300"
+                      aria-label={showPassword ? "Hide current password" : "Show current password"}
+                      className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600 dark:hover:text-gray-300 cursor-pointer"
                     >
                       {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
@@ -302,8 +308,9 @@ export function SettingsDrawer({ isOpen, onClose }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-gray-400">New Password</label>
+                  <label htmlFor="settings-password-new" className="text-[11px] font-bold text-slate-500 dark:text-gray-400">New Password</label>
                   <input
+                    id="settings-password-new"
                     type={showPassword ? "text" : "password"}
                     className="w-full text-xs px-3.5 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 transition-all font-semibold"
                     placeholder="Min. 8 characters"
@@ -324,7 +331,9 @@ export function SettingsDrawer({ isOpen, onClose }) {
               </h4>
               <div className="relative">
                 <Globe size={14} className="absolute left-3.5 top-3.5 text-slate-400 dark:text-gray-500" />
+                <label htmlFor="settings-language" className="sr-only">Language Selection</label>
                 <select
+                  id="settings-language"
                   className="w-full text-xs pl-10 pr-4 py-2.5 border border-slate-200 dark:border-gray-850 bg-white dark:bg-gray-850 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 transition-all font-semibold cursor-pointer"
                   value={language}
                   onChange={(e) => {

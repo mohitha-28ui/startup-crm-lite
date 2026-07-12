@@ -1,15 +1,30 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, BarChart3, X } from "lucide-react";
+import { LayoutDashboard, Users, BarChart3, X, LogOut } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 /**
  * Sidebar component supporting collapsible responsive widths and mobile drawers.
  */
 function Sidebar({ isOpen, onClose }) {
+  const { user, logout } = useAuth();
+
   const navItems = [
     { path: "/", label: "Dashboard", subLabel: "Overview & KPIs", icon: LayoutDashboard },
     { path: "/leads", label: "Leads", subLabel: "Pipeline deals", icon: Users },
     { path: "/analytics", label: "Analytics", subLabel: "Win rates & charts", icon: BarChart3 },
   ];
+
+  // Derive display initials and details from authenticated user object
+  const userInitials = user
+    ? user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "SM";
+  const userName = user ? user.name : "Sana Mohitha";
+  const userEmail = user ? user.email : "sana@startup.io";
 
   return (
     <>
@@ -81,19 +96,48 @@ function Sidebar({ isOpen, onClose }) {
         {/* Responsive User Profile Card */}
         <div className="absolute bottom-5 left-4 right-4 md:left-2 md:right-2 lg:left-4 lg:right-4">
           <div className="flex md:flex-col lg:flex-row items-center gap-3 bg-slate-800 p-3 md:p-2 lg:p-3 rounded-xl">
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-blue-500/30">
-              SM
+            {/* User Initials Avatar */}
+            <div 
+              title="Click to logout"
+              onClick={logout}
+              className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-blue-500/30 cursor-pointer hover:bg-red-600 transition-colors duration-200"
+            >
+              {userInitials}
             </div>
 
             {/* Profile detail: Hidden on Tablet Sidebar (md), visible on Mobile Drawer & Desktop Sidebar (lg) */}
-            <div className="block md:hidden lg:block text-left truncate flex-1">
-              <h3 className="text-xs font-semibold truncate text-white leading-tight">
-                Sana Mohitha
-              </h3>
-              <p className="text-[10px] text-slate-400 truncate mt-0.5 leading-none">
-                sana@startup.io
-              </p>
+            <div className="hidden lg:flex md:hidden flex-1 items-center justify-between min-w-0">
+              <div className="text-left truncate mr-2">
+                <h3 className="text-xs font-semibold truncate text-white leading-tight">
+                  {userName}
+                </h3>
+                <p className="text-[10px] text-slate-400 truncate mt-0.5 leading-none">
+                  {userEmail}
+                </p>
+              </div>
+              
+              {/* Logout Icon Trigger */}
+              <button
+                onClick={logout}
+                type="button"
+                className="text-slate-400 hover:text-red-400 transition-colors p-1"
+                title="Logout"
+                aria-label="Logout user session"
+              >
+                <LogOut size={16} />
+              </button>
             </div>
+
+            {/* Tablet Mobile Logout helper icon */}
+            <button
+              onClick={logout}
+              type="button"
+              className="lg:hidden md:flex hidden text-slate-400 hover:text-red-400 transition-colors p-1"
+              title="Logout"
+              aria-label="Logout user session"
+            >
+              <LogOut size={16} />
+            </button>
           </div>
         </div>
       </aside>

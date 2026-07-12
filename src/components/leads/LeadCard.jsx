@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import { Pencil, Trash2, Mail, Phone, Briefcase } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 
@@ -35,6 +35,14 @@ function LeadCard({ lead, onEdit, onDelete }) {
       .slice(0, 2);
   };
 
+  const handleEditClick = () => {
+    onEdit(lead);
+  };
+
+  const handleDeleteClick = () => {
+    onDelete(lead.id);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-900 border border-slate-100 dark:border-gray-800 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 group">
       {/* Header section */}
@@ -56,22 +64,22 @@ function LeadCard({ lead, onEdit, onDelete }) {
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-1 bg-slate-50 dark:bg-gray-850 p-1 rounded-lg border border-slate-100 dark:border-gray-800 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="flex items-center gap-1 bg-slate-50 dark:bg-gray-850 p-0.5 rounded-xl border border-slate-100 dark:border-gray-800 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <button
-            onClick={() => onEdit(lead)}
-            className="p-1.5 hover:bg-white dark:hover:bg-gray-900 text-slate-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-md transition-colors"
+            onClick={handleEditClick}
+            className="w-11 h-11 flex items-center justify-center hover:bg-white dark:hover:bg-gray-900 text-slate-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors cursor-pointer"
             title="Edit Lead"
             aria-label={`Edit ${lead.name}`}
           >
-            <Pencil size={14} className="stroke-[2.5]" />
+            <Pencil size={16} className="stroke-[2.5]" />
           </button>
           <button
-            onClick={() => onDelete(lead.id)}
-            className="p-1.5 hover:bg-white dark:hover:bg-gray-900 text-slate-600 dark:text-gray-350 hover:text-red-600 dark:hover:text-red-400 rounded-md transition-colors"
+            onClick={handleDeleteClick}
+            className="w-11 h-11 flex items-center justify-center hover:bg-white dark:hover:bg-gray-900 text-slate-600 dark:text-gray-350 hover:text-red-600 dark:hover:text-red-400 rounded-lg transition-colors cursor-pointer"
             title="Delete Lead"
             aria-label={`Delete ${lead.name}`}
           >
-            <Trash2 size={14} className="stroke-[2.5]" />
+            <Trash2 size={16} className="stroke-[2.5]" />
           </button>
         </div>
       </div>
@@ -115,4 +123,4 @@ function LeadCard({ lead, onEdit, onDelete }) {
   );
 }
 
-export default LeadCard;
+export default memo(LeadCard);

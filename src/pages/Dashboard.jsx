@@ -1,4 +1,3 @@
-import React from "react";
 import { useLeads } from "../context/LeadContext";
 
 // Import layout / sub-dashboard components
@@ -96,16 +95,12 @@ function Dashboard() {
       </div>
 
       {/* Main split dashboard layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Visual overview & detailed records (2/3 width) */}
-        <div className="lg:col-span-2 space-y-6">
-          <PipelineOverview leads={mergedLeads} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PipelineOverview leads={mergedLeads} />
+        <QuickActions leads={mergedLeads} />
+        
+        <div className="lg:col-span-2">
           <RecentLeads leads={mergedLeads} />
-        </div>
-
-        {/* Right Column: command shortcuts (1/3 width) */}
-        <div className="lg:col-span-1">
-          <QuickActions leads={mergedLeads} />
         </div>
       </div>
     </div>

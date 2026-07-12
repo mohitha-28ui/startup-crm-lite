@@ -1,5 +1,5 @@
-import React from "react";
-import { Pencil, Trash2, Mail, Phone, Calendar, ArrowUpRight } from "lucide-react";
+import { memo } from "react";
+import { Pencil, Trash2, Mail } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 
 /**
@@ -31,6 +31,14 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
     } catch {
       return dateStr;
     }
+  };
+
+  const handleEditClick = (lead) => {
+    onEdit(lead);
+  };
+
+  const handleDeleteClick = (id) => {
+    onDelete(id);
   };
 
   return (
@@ -97,22 +105,22 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
                   
                   {/* Action Buttons */}
                   <td className="py-4 text-right pr-6">
-                    <div className="flex items-center justify-end gap-1.5 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div className="flex items-center justify-end gap-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <button
-                        onClick={() => onEdit(lead)}
-                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-350 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors cursor-pointer"
+                        onClick={() => handleEditClick(lead)}
+                        className="w-11 h-11 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-350 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl transition-colors cursor-pointer"
                         title="Edit Lead"
                         aria-label={`Edit ${lead.name}`}
                       >
-                        <Pencil size={15} className="stroke-[2.5]" />
+                        <Pencil size={16} className="stroke-[2.5]" />
                       </button>
                       <button
-                        onClick={() => onDelete(lead.id)}
-                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-350 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
+                        onClick={() => handleDeleteClick(lead.id)}
+                        className="w-11 h-11 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-gray-800 text-slate-600 dark:text-gray-350 hover:text-red-650 hover:text-red-600 rounded-xl transition-colors cursor-pointer"
                         title="Delete Lead"
                         aria-label={`Delete ${lead.name}`}
                       >
-                        <Trash2 size={15} className="stroke-[2.5]" />
+                        <Trash2 size={16} className="stroke-[2.5]" />
                       </button>
                     </div>
                   </td>
@@ -126,4 +134,4 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
   );
 }
 
-export default LeadTable;
+export default memo(LeadTable);
