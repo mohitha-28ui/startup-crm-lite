@@ -15,17 +15,15 @@ function Sidebar({ isOpen, onClose }) {
   ];
 
   // Derive display initials and details from authenticated user object
-  const userInitials = user
-    ? user.name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
-    : "SM";
-  const userName = user ? user.name : "Sana Mohitha";
-  const userEmail = user ? user.email : "sana@startup.io";
+  const userName = user?.name || "Sana Mohitha";
+  const userEmail = user?.email || "sana@startup.io";
 
+  const userInitials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
   return (
     <>
       {/* Mobile Drawer Backdrop Overlay */}
@@ -69,10 +67,9 @@ function Sidebar({ isOpen, onClose }) {
                 to={item.path}
                 onClick={onClose} // Auto-close drawer on link click (mobile)
                 className={({ isActive }) =>
-                  `p-3 rounded-xl transition-all duration-200 group ${
-                    isActive
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "hover:bg-slate-800 text-slate-300 hover:text-white"
+                  `p-3 rounded-xl transition-all duration-200 group ${isActive
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "hover:bg-slate-800 text-slate-300 hover:text-white"
                   }`
                 }
               >
@@ -97,7 +94,7 @@ function Sidebar({ isOpen, onClose }) {
         <div className="absolute bottom-5 left-4 right-4 md:left-2 md:right-2 lg:left-4 lg:right-4">
           <div className="flex md:flex-col lg:flex-row items-center gap-3 bg-slate-800 p-3 md:p-2 lg:p-3 rounded-xl">
             {/* User Initials Avatar */}
-            <div 
+            <div
               title="Click to logout"
               onClick={logout}
               className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-blue-500/30 cursor-pointer hover:bg-red-600 transition-colors duration-200"
@@ -115,7 +112,7 @@ function Sidebar({ isOpen, onClose }) {
                   {userEmail}
                 </p>
               </div>
-              
+
               {/* Logout Icon Trigger */}
               <button
                 onClick={logout}

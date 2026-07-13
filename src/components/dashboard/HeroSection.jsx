@@ -9,8 +9,11 @@ function HeroSection() {
   const { leads = [] } = useLeads();
 
   // Extract user's first name, defaulting to "Sana" if anonymous/mock
-  const firstName = user ? user.name.split(" ")[0] : "Sana";
-  
+  const firstName =
+    user && user.name
+      ? user.name.split(" ")[0]
+      : "Sana";
+
   // Calculate count of leads created today
   const today = new Date().toDateString();
   const leadsCreatedToday = leads.filter(
@@ -28,7 +31,7 @@ function HeroSection() {
       </h1>
 
       <p className="text-gray-305 text-slate-200 mt-4 text-base sm:text-lg max-w-xl leading-relaxed">
-        Your CRM has captured {leadsCreatedToday > 0 ? leadsCreatedToday : "new"} leads today. 
+        Your CRM has captured {leadsCreatedToday > 0 ? leadsCreatedToday : "new"} leads today.
         Check your latest analytics and target summaries below.
       </p>
     </div>
