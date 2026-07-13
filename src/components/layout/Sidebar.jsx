@@ -14,12 +14,12 @@ function Sidebar({ isOpen, onClose }) {
     { path: "/analytics", label: "Analytics", subLabel: "Win rates & charts", icon: BarChart3 },
   ];
 
-  // Derive display initials and details from authenticated user object
-  const userName = user?.name || "Sana Mohitha";
-  const userEmail = user?.email || "sana@startup.io";
+  const userName = (typeof user?.name === "string" && user.name.trim()) ? user.name : "Sana Mohitha";
+  const userEmail = (typeof user?.email === "string" && user.email.trim()) ? user.email : "sana@startup.io";
 
   const userInitials = userName
     .split(" ")
+    .filter(Boolean)
     .map((n) => n[0])
     .join("")
     .toUpperCase()

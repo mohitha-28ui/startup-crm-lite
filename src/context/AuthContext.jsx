@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
       if (storedToken) {
         try {
           const profile = await authService.getProfile(); // GET /api/auth/profile
-          setUser(profile.data);
+          setUser(profile.data.user);
           setToken(storedToken);
         } catch (error) {
           console.error("Failed to restore session:", error);

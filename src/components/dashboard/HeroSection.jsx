@@ -8,9 +8,8 @@ function HeroSection() {
   const { user } = useAuth();
   const { leads = [] } = useLeads();
 
-  // Extract user's first name, defaulting to "Sana" if anonymous/mock
   const firstName =
-    user && user.name
+    user && typeof user.name === "string" && user.name.trim()
       ? user.name.split(" ")[0]
       : "Sana";
 

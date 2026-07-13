@@ -88,10 +88,13 @@ export function SettingsDrawer({ isOpen, onClose }) {
               </h4>
               <div className="flex items-center gap-4 bg-slate-50/50 dark:bg-gray-800/20 p-3 rounded-xl border border-slate-100 dark:border-gray-850">
                 <div className="h-12 w-12 rounded-full bg-blue-600 text-white font-extrabold text-sm flex items-center justify-center shadow-md shadow-blue-500/10">
-                  {profile.name
+                  {(typeof profile?.name === "string" ? profile.name : "")
                     .split(" ")
+                    .filter(Boolean)
                     .map((n) => n[0])
-                    .join("")}
+                    .join("")
+                    .toUpperCase()
+                    .slice(0, 2)}
                 </div>
                 <div>
                   <h5 className="text-xs font-bold text-slate-800 dark:text-white">{profile.name}</h5>

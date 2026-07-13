@@ -26,9 +26,10 @@ function LeadCard({ lead, onEdit, onDelete }) {
    * @returns {string} Initials string.
    */
   const getInitials = (name) => {
-    if (!name) return "??";
+    if (typeof name !== "string" || !name.trim()) return "??";
     return name
       .split(" ")
+      .filter(Boolean)
       .map((part) => part[0])
       .join("")
       .toUpperCase()
