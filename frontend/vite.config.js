@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [
     react(),       // Enables compilation support for React JSX syntax
     tailwindcss()  // Automatically processes Tailwind CSS directives on build
-  ]
+  ],
+  build: {
+    chunkSizeWarningLimit: 1600  // Suppress warnings for vendor chunks larger than 500kB
+  }
 })
