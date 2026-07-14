@@ -14,41 +14,8 @@ function Header({ onMenuToggle }) {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  // Initialize mock notifications: 2 unread (read: false), 2 read (read: true)
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      type: "lead",
-      title: "New Lead Assigned",
-      message: "Sarah Jenkins from Acme Corp was assigned to you.",
-      time: "2 mins ago",
-      read: false,
-    },
-    {
-      id: 2,
-      type: "reminder",
-      title: "Follow-up Reminder",
-      message: "Call John Doe regarding pricing negotiations.",
-      time: "1 hour ago",
-      read: false,
-    },
-    {
-      id: 3,
-      type: "meeting",
-      title: "Meeting Scheduled",
-      message: "Demo meeting scheduled with TechStart team.",
-      time: "4 hours ago",
-      read: true,
-    },
-    {
-      id: 4,
-      type: "revenue",
-      title: "Revenue Milestone",
-      message: "Q2 target achieved! Up by 15% this week.",
-      time: "Yesterday",
-      read: true,
-    },
-  ]);
+  // Initialize mock notifications: empty for production
+  const [notifications, setNotifications] = useState([]);
 
   const notifRef = useRef(null);
 

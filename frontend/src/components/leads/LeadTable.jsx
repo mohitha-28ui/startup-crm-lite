@@ -100,7 +100,7 @@ function LeadTable({ leads = [], onEdit, onDelete }) {
                   
                   {/* Date Added */}
                   <td className="py-4 text-slate-400 dark:text-gray-500 text-xs hidden lg:table-cell">
-                    {formatDate(lead.dateAdded)}
+                    {formatDate(lead.createdAt || lead.dateAdded)}
                   </td>
                   
                   {/* Action Buttons */}

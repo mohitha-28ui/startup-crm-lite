@@ -7,65 +7,36 @@ import PipelineOverview from "../components/dashboard/PipelineOverview";
 import RecentLeads from "../components/dashboard/RecentLeads";
 import QuickActions from "../components/dashboard/QuickActions";
 
-// Import Lucide React icons for stats cards
+// Import Lucide React icons
 import { Users, Award, XCircle, Target } from "lucide-react";
 
-/**
- * Dashboard page component of Startup CRM Lite.
- * Assembles StatsCards, PipelineOverview, RecentLeads, and QuickActions panels,
- * utilizing context data merged with rich baseline mockup datasets.
- *
- * @component
- * @returns {React.JSX.Element} The rendered Dashboard page.
- */
 function Dashboard() {
-  const { leads: contextLeads = [] } = useLeads();
+  const { leads = [] } = useLeads();
 
-  // 1. Establish robust baseline mock data for immediate visual impact
-  const defaultSampleLeads = [
-    { id: 1, name: "Mohitha", company: "Acme Corp", value: "$8,500", status: "In Progress", dateAdded: "Jun 14, 2026" },
-    { id: 2, name: "John Smith", company: "TechNova", value: "$5,200", status: "Won", dateAdded: "Jun 15, 2026" },
-    { id: 3, name: "Emma Wilson", company: "CloudSync", value: "$12,000", status: "New", dateAdded: "Jun 15, 2026" },
-    { id: 4, name: "Liam Carter", company: "Apex Digital", value: "$4,300", status: "Contacted", dateAdded: "Jun 15, 2026" },
-    { id: 5, name: "Sophia Martinez", company: "Starlight Media", value: "$9,500", status: "Won", dateAdded: "Jun 16, 2026" },
-    { id: 6, name: "David Kim", company: "Nexus Health", value: "$15,000", status: "In Progress", dateAdded: "Jun 16, 2026" },
-    { id: 7, name: "Freddie Vance", company: "Vocal Dynamics", value: "$25,000", status: "Won", dateAdded: "Jun 16, 2026" },
-    { id: 8, name: "Mohan", company: "Enigma Security", value: "$18,500", status: "Lost", dateAdded: "Jun 16, 2026" },
-  ];
+  // Use only real backend data
+  const totalLeads = leads.length;
 
-  // 2. Intelligently merge context leads (so user-added leads instantly display) with mock baseline
-  const mergedLeads = [...contextLeads];
-  defaultSampleLeads.forEach((sample) => {
-    const isDuplicate = contextLeads.some(
-      (cl) => cl.id === sample.id || cl.name.toLowerCase() === sample.name.toLowerCase()
-    );
-    if (!isDuplicate) {
-      mergedLeads.push(sample);
-    }
-  });
-
-  // 3. Compute metric aggregations
-  const totalLeads = mergedLeads.length;
-  const wonLeads = mergedLeads.filter(
-    (lead) => String(lead.status || "").toLowerCase().trim() === "won"
+  const wonLeads = leads.filter(
+    (lead) => String(lead.status || "").toLowerCase() === "won"
   ).length;
-  const lostLeads = mergedLeads.filter(
-    (lead) => String(lead.status || "").toLowerCase().trim() === "lost"
+
+  const lostLeads = leads.filter(
+    (lead) => String(lead.status || "").toLowerCase() === "lost"
   ).length;
-  const conversionRate = totalLeads > 0 ? Math.round((wonLeads / totalLeads) * 100) : 0;
+
+  const conversionRate =
+    totalLeads > 0 ? Math.round((wonLeads / totalLeads) * 100) : 0;
 
   return (
     <div className="p-4 sm:p-6 bg-slate-50 dark:bg-gray-950 min-h-screen space-y-6 transition-colors duration-200">
-      {/* Visual greeting banner */}
       <HeroSection />
 
-      {/* Metrics Card Grid: 1 column on mobile, 2 on tablet, 4 on desktop */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
           title="Total Leads"
           value={totalLeads}
           icon={Users}
-          change="+14.2%"
+          change="+0%"
           color="primary"
         />
 
@@ -73,7 +44,7 @@ function Dashboard() {
           title="Won Leads"
           value={wonLeads}
           icon={Award}
-          change="+18.2%"
+          change="+0%"
           color="success"
         />
 
@@ -81,7 +52,7 @@ function Dashboard() {
           title="Lost Leads"
           value={lostLeads}
           icon={XCircle}
-          change="-8.4%"
+          change="+0%"
           color="danger"
         />
 
@@ -89,18 +60,17 @@ function Dashboard() {
           title="Conversion Rate"
           value={`${conversionRate}%`}
           icon={Target}
-          change="+5.2%"
+          change="+0%"
           color="warning"
         />
       </div>
 
-      {/* Main split dashboard layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PipelineOverview leads={mergedLeads} />
-        <QuickActions leads={mergedLeads} />
-        
+        <PipelineOverview leads={leads} />
+        <QuickActions leads={leads} />
+
         <div className="lg:col-span-2">
-          <RecentLeads leads={mergedLeads} />
+          <RecentLeads leads={leads} />
         </div>
       </div>
     </div>

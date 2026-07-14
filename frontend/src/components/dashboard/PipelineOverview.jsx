@@ -17,7 +17,8 @@ function PipelineOverview({ leads = [] }) {
   const STATUS_CONFIG = {
     new: { label: "New", colorClass: "bg-blue-600", textClass: "text-blue-600", bgLight: "bg-blue-50" },
     contacted: { label: "Contacted", colorClass: "bg-indigo-500", textClass: "text-indigo-600", bgLight: "bg-indigo-50" },
-    "in progress": { label: "In Progress", colorClass: "bg-amber-500", textClass: "text-amber-600", bgLight: "bg-amber-50" },
+    "meeting scheduled": { label: "Meeting Scheduled", colorClass: "bg-purple-500", textClass: "text-purple-600", bgLight: "bg-purple-50" },
+    "proposal sent": { label: "Proposal Sent", colorClass: "bg-amber-500", textClass: "text-amber-600", bgLight: "bg-amber-50" },
     won: { label: "Won", colorClass: "bg-green-500", textClass: "text-green-600", bgLight: "bg-green-50" },
     lost: { label: "Lost", colorClass: "bg-red-500", textClass: "text-red-600", bgLight: "bg-red-50" },
     other: { label: "Other", colorClass: "bg-slate-400", textClass: "text-slate-500", bgLight: "bg-slate-50" },
@@ -57,7 +58,8 @@ function PipelineOverview({ leads = [] }) {
   const statusSummary = {
     new: { count: 0, value: 0 },
     contacted: { count: 0, value: 0 },
-    "in progress": { count: 0, value: 0 },
+    "meeting scheduled": { count: 0, value: 0 },
+    "proposal sent": { count: 0, value: 0 },
     won: { count: 0, value: 0 },
     lost: { count: 0, value: 0 },
     other: { count: 0, value: 0 },

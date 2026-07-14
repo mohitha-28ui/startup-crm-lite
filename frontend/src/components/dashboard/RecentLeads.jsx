@@ -24,22 +24,19 @@ function RecentLeads({ leads = [] }) {
    * @returns {string} Formatted date.
    */
   const formatDate = (lead) => {
-    if (lead.dateAdded) return lead.dateAdded;
-    if (lead.createdAt) return lead.createdAt;
-    
-    // Consistent mock fallbacks for core initial records
-    if (lead.id === 1) return "Jun 14, 2026";
-    if (lead.id === 2) return "Jun 15, 2026";
-    if (lead.id === 3) return "Jun 15, 2026";
-    if (lead.id === 4) return "Jun 16, 2026";
-
-    // Format current date as fallback
-    const d = new Date();
-    return d.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
+    const rawDate = lead.createdAt || lead.dateAdded;
+    if (!rawDate) return "";
+    try {
+      const d = new Date(rawDate);
+      if (isNaN(d.getTime())) return rawDate;
+      return d.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch {
+      return rawDate;
+    }
   };
 
   return (
