@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem("crm-token", receivedToken);
       setToken(receivedToken);
       setUser(receivedUser);
-      toast.success("Account created successfully!");
+      toast.success("Account created successfully.");
       return receivedUser;
     } catch (error) {
       toast.error(error.message || "Registration failed");
