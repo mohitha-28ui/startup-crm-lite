@@ -32,6 +32,24 @@ const app = express();
 app.set("trust proxy", 1);
 
 /**
+ * CORS Configuration (Must be defined at the very top to handle preflight OPTIONS requests cleanly)
+ */
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "https://startup-crm-lite-ten.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000"
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
+
+
+/**
  * Environment Variables Validation
  */
 const checkRequiredEnvVars = () => {
@@ -115,15 +133,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
 }
 
-/**
- * ✅ CORS FIX
- */
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
+// CORS already mounted at the top of the server file
 
 /**
  * Body Parser
@@ -152,7 +162,7 @@ app.use("/api/leads", leadRoutes);
  */
 app.get("/", (req, res) => {
   res.redirect(
-    "https://startup-crm-lite-m7xxxg18e-sanamohitha82-4638s-projects.vercel.app"
+    process.env.FRONTEND_URL || "https://startup-crm-lite-ten.vercel.app"
   );
 });
 
