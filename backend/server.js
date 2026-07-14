@@ -28,6 +28,9 @@ const __dirname = path.dirname(__filename);
 // Initialize Express App
 const app = express();
 
+// Trust proxy (required when deployed behind load balancers/reverse proxies like Railway, Heroku, Vercel)
+app.set("trust proxy", 1);
+
 /**
  * Environment Variables Validation
  */
@@ -80,12 +83,24 @@ app.use(mongoSanitizeMiddleware);
  */
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 300, // Safe limit for general usage
+  message: {
+    success: false,
+    message: "Too many requests. Please try again after 15 minutes."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 100, // Generous limit for authentication during testing
+  message: {
+    success: false,
+    message: "Too many authentication attempts. Please try again after 15 minutes."
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 app.use("/api/auth", authLimiter);
