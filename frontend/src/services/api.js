@@ -33,10 +33,26 @@ api.interceptors.response.use(
   (error) => {
     // Check if it's a network error (no response received)
     if (!error.response) {
-      toast.error("Cannot connect to server. Check your connection.", {
-        id: "network-error", // Avoid toast spamming
-      });
-      return Promise.reject(new Error("Cannot connect to server. Check your connection."));
+      const isLocalhost = apiURL.includes("localhost") || apiURL.includes("127.0.0.1");
+      const isHttps = window.location.protocol === "https:";
+      
+      let debugMessage = `Connection failed to API URL: ${apiURL}. `;
+      if (isLocalhost && isHttps) {
+        debugMessage += "Blocked by Mixed Content: Your browser blocks HTTP connections to localhost when loaded over HTTPS. ";
+      } else {
+        debugMessage += "Possible causes: Backend server is down, CORS blocking, or invalid URL configuration. ";
+      }
+      
+      console.error("[CRM API Network Error]", debugMessage, error);
+      
+      toast.error(
+        `Cannot connect to server at ${apiURL}. Verify server status, CORS headers, or network.`,
+        {
+          id: "network-error", // Avoid toast spamming
+          duration: 6000,
+        }
+      );
+      return Promise.reject(new Error(`Cannot connect to server at ${apiURL}`));
     }
 
     const { status, data } = error.response;
