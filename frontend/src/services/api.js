@@ -1,9 +1,9 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-// Force relative '/api' proxy in production (to bypass ISP blocks and CORS), falling back to local port 5000 in development
+// Force empty string (same domain) in production (requests will use relative routes like /api/auth/register via Vercel proxy), falling back to local port 5000 in development
 const apiURL = (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1")
-  ? "/api"
+  ? ""
   : (import.meta.env.VITE_API_URL || "http://localhost:5000");
 
 const api = axios.create({
