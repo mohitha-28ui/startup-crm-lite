@@ -53,7 +53,7 @@ app.use(
  * Environment Variables Validation
  */
 const checkRequiredEnvVars = () => {
-  const required = ["MONGODB_URI", "JWT_SECRET", "PORT"];
+  const required = ["MONGODB_URI", "JWT_SECRET"];
   const missing = required.filter((v) => !process.env[v]);
 
   if (missing.length > 0) {

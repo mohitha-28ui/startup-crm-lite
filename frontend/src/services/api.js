@@ -1,8 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-// Determine the API base URL from the environment variables, falling back to local port 5000 on localhost, or relative '/api' proxy in production
-const apiURL = import.meta.env.VITE_API_URL || (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "http://localhost:5000" : "/api");
+// Force relative '/api' proxy in production (to bypass ISP blocks and CORS), falling back to local port 5000 in development
+const apiURL = (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1")
+  ? "/api"
+  : (import.meta.env.VITE_API_URL || "http://localhost:5000");
 
 const api = axios.create({
   baseURL: apiURL,
