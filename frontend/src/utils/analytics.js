@@ -8,12 +8,12 @@ const STATUS_WEIGHTS = {
   Lost: 0,
 };
 const STATUS_COLORS = {
-  New: "#2563eb",
-  Contacted: "#4f46e5",
-  "Meeting Scheduled": "#7c3aed",
-  "Proposal Sent": "#d97706",
-  Won: "#16a34a",
-  Lost: "#dc2626",
+  New: "var(--nordic-secondary)",
+  Contacted: "var(--nordic-primary)",
+  "Meeting Scheduled": "var(--nordic-accent)",
+  "Proposal Sent": "var(--nordic-warning)",
+  Won: "var(--nordic-success)",
+  Lost: "var(--nordic-error)",
 };
 const TEAM_MEMBERS = ["Asha", "Kabir", "Meera", "Rohan"];
 

@@ -80,9 +80,9 @@ function Leads() {
       updateLead(selectedLead.id, formData);
       toast.success(`Updated lead "${formData.name}" successfully`, {
         style: {
-          background: "#F0FDF4",
-          color: "#166534",
-          border: "1px solid #BBF7D0",
+          background: "var(--toast-success-bg)",
+          color: "var(--toast-success-color)",
+          border: "1px solid var(--toast-success-border)",
           fontSize: "14px",
           fontWeight: "600",
         },
@@ -92,9 +92,9 @@ function Leads() {
       addLead(formData);
       toast.success(`Lead "${formData.name}" registered successfully`, {
         style: {
-          background: "#F0FDF4",
-          color: "#166534",
-          border: "1px solid #BBF7D0",
+          background: "var(--toast-success-bg)",
+          color: "var(--toast-success-color)",
+          border: "1px solid var(--toast-success-border)",
           fontSize: "14px",
           fontWeight: "600",
         },
@@ -116,9 +116,9 @@ function Leads() {
       deleteLead(id);
       toast.error(`Removed lead "${leadName}"`, {
         style: {
-          background: "#FEF2F2",
-          color: "#991B1B",
-          border: "1px solid #FCA5A5",
+          background: "var(--toast-error-bg)",
+          color: "var(--toast-error-color)",
+          border: "1px solid var(--toast-error-border)",
           fontSize: "14px",
           fontWeight: "600",
         },

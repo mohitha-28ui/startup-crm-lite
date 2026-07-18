@@ -56,7 +56,7 @@ export function FunnelChartCard({ data = [] }) {
                 nameKey="stage"
                 isAnimationActive
               >
-                <LabelList position="right" fill="#94A3B8" stroke="none" dataKey="stage" fontSize={11} fontWeight={600} />
+                <LabelList position="right" fill="var(--nordic-text-secondary)" stroke="none" dataKey="stage" fontSize={11} fontWeight={600} />
                 {data.map((entry) => (
                   <Cell key={`cell-${entry.stage}`} fill={getStageColor(entry.stage)} />
                 ))}

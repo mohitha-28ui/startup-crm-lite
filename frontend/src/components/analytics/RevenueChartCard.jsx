@@ -48,8 +48,8 @@ export function RevenueChartCard({ data = [] }) {
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
             <defs>
               <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#22C55E" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#22C55E" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="var(--nordic-success)" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="var(--nordic-success)" stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
@@ -57,12 +57,12 @@ export function RevenueChartCard({ data = [] }) {
               dataKey="month"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: "var(--nordic-text-secondary)", fontSize: 11, fontWeight: 500 }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: "var(--nordic-text-secondary)", fontSize: 11, fontWeight: 500 }}
               tickFormatter={(v) => {
                 if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`;
                 if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`;
@@ -74,7 +74,7 @@ export function RevenueChartCard({ data = [] }) {
             <Area
               type="monotone"
               dataKey="revenue"
-              stroke="#22C55E"
+              stroke="var(--nordic-success)"
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#colorRevenue)"

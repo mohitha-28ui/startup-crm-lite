@@ -44,7 +44,7 @@ export function LeadSourceChart({ data = [] }) {
               type="number"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: "var(--nordic-text-secondary)", fontSize: 11, fontWeight: 500 }}
               allowDecimals={false}
             />
             <YAxis
@@ -52,13 +52,13 @@ export function LeadSourceChart({ data = [] }) {
               dataKey="source"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 600 }}
+              tick={{ fill: "var(--nordic-text-secondary)", fontSize: 11, fontWeight: 600 }}
               width={80}
             />
             <Tooltip content={<CustomTooltip />} />
             <Bar
               dataKey="count"
-              fill="#3B82F6"
+              fill="var(--nordic-primary)"
               radius={[0, 6, 6, 0]}
               animationDuration={800}
               barSize={20}

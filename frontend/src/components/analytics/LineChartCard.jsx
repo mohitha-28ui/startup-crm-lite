@@ -26,7 +26,7 @@ const CustomTooltip = ({ active, payload }) => {
  */
 export function LineChartCard({ data = [] }) {
   return (
-    <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-sm flex flex-col justify-between h-96 transition-colors duration-200 [--line-dot-bg:#ffffff] dark:[--line-dot-bg:#111827]">
+    <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-sm flex flex-col justify-between h-96 transition-colors duration-200 [--line-dot-bg:var(--nordic-surface)]">
       <div>
         <h3 className="text-base font-bold text-slate-900 dark:text-white">Conversion Rate Trend</h3>
         <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">Monthly closed-won lead percentage timeline</p>
@@ -40,12 +40,12 @@ export function LineChartCard({ data = [] }) {
               dataKey="month"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: "var(--nordic-text-secondary)", fontSize: 11, fontWeight: 500 }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: "var(--nordic-text-secondary)", fontSize: 11, fontWeight: 500 }}
               domain={[0, 100]}
               tickFormatter={(v) => `${v}%`}
             />
@@ -53,10 +53,10 @@ export function LineChartCard({ data = [] }) {
             <Line
               type="monotone"
               dataKey="rate"
-              stroke="#22C55E" // Success Green
+              stroke="var(--nordic-success)" // Success Green
               strokeWidth={3}
-              dot={{ r: 4, strokeWidth: 2, stroke: "#22C55E", fill: "var(--line-dot-bg)" }}
-              activeDot={{ r: 6, strokeWidth: 0, fill: "#22C55E" }}
+              dot={{ r: 4, strokeWidth: 2, stroke: "var(--nordic-success)", fill: "var(--line-dot-bg)" }}
+              activeDot={{ r: 6, strokeWidth: 0, fill: "var(--nordic-success)" }}
               isAnimationActive={true}
               animationDuration={800}
             />
