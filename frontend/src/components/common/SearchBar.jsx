@@ -3,12 +3,7 @@ import { Search, X } from "lucide-react";
 
 /**
  * SearchBar component with debounced search input.
- *
- * @component
- * @param {Object} props - Component props.
- * @param {string} props.value - Debounced search query owned by parent.
- * @param {function} props.onChange - Called 300ms after user stops typing.
- * @returns {React.JSX.Element} The rendered SearchBar component.
+ * Upgraded with custom focused shadows and glass layouts.
  */
 function SearchBar({ value, onChange }) {
   const [localValue, setLocalValue] = useState(value);
@@ -31,12 +26,12 @@ function SearchBar({ value, onChange }) {
 
   return (
     <div className="relative flex-1">
-      <Search size={18} className="absolute left-3.5 top-3.5 text-slate-400 dark:text-gray-500 pointer-events-none" />
+      <Search size={16} className="absolute left-3.5 top-3.5 text-slate-400 dark:text-gray-500 pointer-events-none stroke-[2.25]" />
       <input
         type="text"
-        placeholder="Search by name, company, or email..."
+        placeholder="Search leads by name, company, or email..."
         aria-label="Search leads by name, company, or email"
-        className="w-full pl-11 pr-10 py-3 border border-slate-200 dark:border-gray-700 rounded-xl bg-slate-50 dark:bg-gray-900 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-gray-850 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:border-blue-500 transition-all duration-200 text-sm"
+        className="w-full pl-11 pr-10 py-2.5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-950/40 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 transition-all duration-300 text-xs font-semibold"
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
       />
@@ -44,10 +39,10 @@ function SearchBar({ value, onChange }) {
         <button
           type="button"
           onClick={handleClear}
-          className="absolute right-3 top-3.5 p-0.5 text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 transition-colors duration-200 cursor-pointer"
+          className="absolute right-3 top-3 p-0.5 text-slate-400 dark:text-gray-500 hover:text-slate-700 dark:hover:text-gray-250 transition-colors duration-200 cursor-pointer"
           aria-label="Clear search"
         >
-          <X size={16} />
+          <X size={14} className="stroke-[2.5]" />
         </button>
       )}
     </div>

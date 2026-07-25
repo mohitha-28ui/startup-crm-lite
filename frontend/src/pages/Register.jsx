@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { User, Lock, Mail, Loader2, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Register() {
   const { register, isLoading } = useAuth();
@@ -20,7 +21,7 @@ export default function Register() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setError(""); // Reset error on input change
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -44,43 +45,58 @@ export default function Register() {
 
     try {
       await register(name, email, password);
-      navigate("/"); // Redirect to dashboard on success
+      navigate("/");
     } catch (err) {
       setError(err.message || "Registration failed. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-gray-950 p-4 sm:p-6 transition-colors duration-200">
-      <div className="w-full max-w-md bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-3xl p-6 sm:p-8 shadow-xl transition-all duration-200">
-        
-        {/* Header section */}
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0B0F19] p-4 sm:p-6 transition-colors duration-300 relative overflow-hidden">
+      {/* Background blurs */}
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/10 blur-3xl pointer-events-none animate-pulse duration-[8000ms]"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[450px] h-[450px] rounded-full bg-purple-500/10 blur-3xl pointer-events-none animate-pulse duration-[6000ms]"></div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 350, damping: 25 }}
+        className="w-full max-w-md bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border border-slate-200/40 dark:border-slate-800/40 rounded-[28px] p-6 sm:p-8 shadow-2xl relative z-10 transition-all duration-300"
+      >
+        {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white text-base font-black shadow-lg shadow-blue-500/20 mb-4 select-none">
+            S
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white tracking-tight">
             Create Account
           </h1>
-          <p className="text-slate-500 dark:text-gray-400 mt-2 text-sm">
-            Get started with Startup CRM Lite
+          <p className="text-slate-500 dark:text-gray-400 mt-2 text-xs font-semibold uppercase tracking-wider">
+            Get started with CRM Lite
           </p>
         </div>
 
         {/* Error Alert Box */}
         {error && (
-          <div className="mb-6 p-4 bg-rose-50 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50 rounded-2xl text-rose-600 dark:text-rose-400 text-sm font-medium">
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-rose-50 dark:bg-rose-950/20 border border-rose-200/40 dark:border-rose-900/30 rounded-2xl text-rose-600 dark:text-rose-400 text-xs font-bold"
+          >
             {error}
-          </div>
+          </motion.div>
         )}
 
-        {/* Registration Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Full Name Input Group */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Full Name */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
               Full Name
             </label>
             <div className="relative">
               <span className="absolute left-3.5 top-3 text-slate-400 dark:text-gray-500">
-                <User size={18} />
+                <User size={16} className="stroke-[2.25]" />
               </span>
               <input
                 type="text"
@@ -89,19 +105,19 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Jane Doe"
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-gray-700 rounded-2xl bg-slate-50 dark:bg-gray-850 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:bg-white dark:focus:bg-gray-900 transition-all text-sm"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-200/60 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-950/50 text-slate-905 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-all text-sm font-semibold"
               />
             </div>
           </div>
 
-          {/* Email Input Group */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">
+          {/* Email Address */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
               Email Address
             </label>
             <div className="relative">
               <span className="absolute left-3.5 top-3 text-slate-400 dark:text-gray-500">
-                <Mail size={18} />
+                <Mail size={16} className="stroke-[2.25]" />
               </span>
               <input
                 type="email"
@@ -109,20 +125,20 @@ export default function Register() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-gray-700 rounded-2xl bg-slate-50 dark:bg-gray-850 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:bg-white dark:focus:bg-gray-900 transition-all text-sm"
+                placeholder="jane@company.com"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-200/60 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-950/50 text-slate-905 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-all text-sm font-semibold"
               />
             </div>
           </div>
 
-          {/* Password Input Group */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">
+          {/* Password */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
               Password
             </label>
             <div className="relative">
               <span className="absolute left-3.5 top-3 text-slate-400 dark:text-gray-500">
-                <Lock size={18} />
+                <Lock size={16} className="stroke-[2.25]" />
               </span>
               <input
                 type="password"
@@ -130,20 +146,20 @@ export default function Register() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Minimum 6 characters"
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-gray-700 rounded-2xl bg-slate-50 dark:bg-gray-850 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:bg-white dark:focus:bg-gray-900 transition-all text-sm"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-200/60 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-950/50 text-slate-905 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-all text-sm font-semibold"
               />
             </div>
           </div>
 
-          {/* Confirm Password Input Group */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">
+          {/* Confirm Password */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
               Confirm Password
             </label>
             <div className="relative">
               <span className="absolute left-3.5 top-3 text-slate-400 dark:text-gray-500">
-                <Lock size={18} />
+                <Lock size={16} className="stroke-[2.25]" />
               </span>
               <input
                 type="password"
@@ -151,46 +167,45 @@ export default function Register() {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                placeholder="Confirm password"
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-gray-700 rounded-2xl bg-slate-50 dark:bg-gray-850 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-gray-800 focus:bg-white dark:focus:bg-gray-900 transition-all text-sm"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-200/60 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-950/50 text-slate-905 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-all text-sm font-semibold"
               />
             </div>
           </div>
 
-          {/* Submit Action Button */}
+          {/* Submit button */}
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none transition-all text-sm mt-8"
+            className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-650 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-blue-500/10 hover:shadow-xl hover:shadow-blue-500/20 active:scale-[0.985] disabled:opacity-50 disabled:pointer-events-none transition-all text-xs uppercase tracking-wider mt-6"
           >
             {isLoading ? (
               <>
-                <Loader2 className="animate-spin" size={18} />
+                <Loader2 className="animate-spin" size={16} />
                 Creating Account...
               </>
             ) : (
               <>
                 Register
-                <ArrowRight size={16} />
+                <ArrowRight size={14} className="stroke-[2.5]" />
               </>
             )}
           </button>
         </form>
 
-        {/* Footer links */}
-        <div className="mt-8 text-center border-t border-slate-100 dark:border-gray-800 pt-6">
-          <p className="text-sm text-slate-500 dark:text-gray-400">
+        {/* Footer */}
+        <div className="mt-8 text-center border-t border-slate-100 dark:border-slate-800/80 pt-6">
+          <p className="text-xs font-semibold text-slate-500 dark:text-gray-400">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-blue-600 dark:text-blue-500 font-bold hover:underline"
+              className="text-blue-600 dark:text-blue-400 font-bold hover:underline ml-1"
             >
               Sign in instead
             </Link>
           </p>
         </div>
-
-      </div>
+      </motion.div>
     </div>
   );
 }

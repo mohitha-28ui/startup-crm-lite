@@ -1,15 +1,10 @@
+import { motion } from "framer-motion";
 
 const FILTERS = ["All", "New", "Contacted", "Meeting Scheduled", "Proposal Sent", "Won", "Lost"];
 
 /**
- * FilterBar component displays clickable status filter buttons with lead counts.
- *
- * @component
- * @param {Object} props - Component props.
- * @param {string} props.activeFilter - Currently active filter value.
- * @param {function} props.onFilterChange - Callback when a filter is selected.
- * @param {Array<Object>} props.leads - Full leads list for count calculation.
- * @returns {React.JSX.Element} The rendered FilterBar component.
+ * FilterBar component displays status filters with active counts.
+ * Uses Framer Motion's layout animations for smooth sliding indicator pills.
  */
 function FilterBar({ activeFilter, onFilterChange, leads = [] }) {
   const getCount = (filter) => {
@@ -18,7 +13,7 @@ function FilterBar({ activeFilter, onFilterChange, leads = [] }) {
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 relative">
       {FILTERS.map((filter) => {
         const isActive = activeFilter === filter;
         const count = getCount(filter);
@@ -29,13 +24,23 @@ function FilterBar({ activeFilter, onFilterChange, leads = [] }) {
             type="button"
             onClick={() => onFilterChange(filter)}
             aria-pressed={isActive}
-            className={`px-3.5 py-2 text-sm font-medium rounded-xl border transition-all duration-200 cursor-pointer ${
+            className={`relative px-4 py-2 text-xs font-bold rounded-xl transition-all duration-300 cursor-pointer overflow-hidden border border-transparent select-none ${
               isActive
-                ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                : "bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+                ? "text-white"
+                : "bg-slate-100/50 dark:bg-slate-850/40 text-slate-655 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-150/60 dark:hover:bg-slate-800/40"
             }`}
           >
-            {filter} ({count})
+            {/* Sliding Active Pill */}
+            {isActive && (
+              <motion.div
+                layoutId="activeFilterBg"
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-650 -z-10 shadow-[0_3px_10px_rgba(37,99,235,0.25)]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            <span className="relative z-10">
+              {filter} <span className={`text-[10px] font-semibold ml-0.5 ${isActive ? "text-blue-100" : "text-slate-400 dark:text-slate-500"}`}>({count})</span>
+            </span>
           </button>
         );
       })}

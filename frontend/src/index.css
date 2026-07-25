@@ -1,55 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --nordic-bg: #F7F8F5;
-  --nordic-surface: #ECEDE8;
-  --nordic-primary: #50614F;
-  --nordic-primary-hover: #414E3F;
-  --nordic-secondary: #8D9B87;
-  --nordic-accent: #C8A97E;
-  --nordic-text: #1C201B;
-  --nordic-text-secondary: #59635A;
-  --nordic-border: #D6D8D2;
-  --nordic-success: #4C8C5A;
-  --nordic-warning: #C78A2C;
-  --nordic-error: #C95A5A;
-  
-  --toast-success-bg: #EBF4ED;
-  --toast-success-color: #4C8C5A;
-  --toast-success-border: #C2DEC9;
-  --toast-error-bg: #FDF2F2;
-  --toast-error-color: #C95A5A;
-  --toast-error-border: #F5C7C7;
+  /* Premium SaaS Design Tokens */
+  --brand-bg: #F8FAFC;
+  --brand-surface: #FFFFFF;
+  --brand-primary: #2563EB;
+  --brand-primary-hover: #1D4ED8;
+  --brand-secondary: #7C3AED;
+  --brand-accent: #06B6D4;
+  --brand-text: #0F172A;
+  --brand-text-secondary: #64748B;
+  --brand-border: #E2E8F0;
+  --brand-success: #22C55E;
+  --brand-warning: #F59E0B;
+  --brand-error: #EF4444;
+  --brand-info: #3B82F6;
+
+  /* Downstream compatibility mappings */
+  --nordic-bg: var(--brand-bg);
+  --nordic-surface: var(--brand-surface);
+  --nordic-primary: var(--brand-primary);
+  --nordic-primary-hover: var(--brand-primary-hover);
+  --nordic-secondary: var(--brand-secondary);
+  --nordic-accent: var(--brand-accent);
+  --nordic-text: var(--brand-text);
+  --nordic-text-secondary: var(--brand-text-secondary);
+  --nordic-border: var(--brand-border);
+  --nordic-success: var(--brand-success);
+  --nordic-warning: var(--brand-warning);
+  --nordic-error: var(--brand-error);
+
+  --toast-success-bg: #DCFCE7;
+  --toast-success-color: #15803D;
+  --toast-success-border: #BBF7D0;
+  --toast-error-bg: #FEE2E2;
+  --toast-error-color: #991B1B;
+  --toast-error-border: #FCA5A5;
 
   /* Premium SaaS shadows for light mode */
-  --shadow-sm: 0 1px 2px rgba(28, 32, 27, 0.04);
-  --shadow-md: 0 4px 10px rgba(28, 32, 27, 0.05), 0 1px 3px rgba(28, 32, 27, 0.02);
-  --shadow-lg: 0 10px 20px rgba(28, 32, 27, 0.06), 0 3px 6px rgba(28, 32, 27, 0.03);
-  --shadow-xl: 0 20px 32px rgba(28, 32, 27, 0.08), 0 8px 16px rgba(28, 32, 27, 0.04);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.02);
+  --shadow-lg: 0 12px 24px rgba(15, 23, 42, 0.08), 0 4px 8px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 36px rgba(15, 23, 42, 0.12), 0 8px 16px rgba(15, 23, 42, 0.06);
 }
 
 .dark {
-  --nordic-bg: #171A17;
-  --nordic-surface: #212520;
-  --nordic-primary: #8BAE87;
-  --nordic-primary-hover: #9cbe97;
-  --nordic-secondary: #A7B5A3;
-  --nordic-accent: #D9BC8E;
-  --nordic-text: #F4F6F2;
-  --nordic-text-secondary: #B9C0B8;
-  --nordic-border: #343A35;
-  --nordic-success: #4C8C5A;
-  --nordic-warning: #C78A2C;
-  --nordic-error: #C95A5A;
-  
-  --toast-success-bg: #1B2E1E;
-  --toast-success-color: #8BAE87;
-  --toast-success-border: #344D38;
-  --toast-error-bg: #2E1E1E;
-  --toast-error-color: #E09393;
-  --toast-error-border: #543434;
+  /* Premium SaaS Design Tokens */
+  --brand-bg: #0B0F19;
+  --brand-surface: #1E293B;
+  --brand-primary: #3B82F6;
+  --brand-primary-hover: #60A5FA;
+  --brand-secondary: #A78BFA;
+  --brand-accent: #22D3EE;
+  --brand-text: #F8FAFC;
+  --brand-text-secondary: #94A3B8;
+  --brand-border: #334155;
+  --brand-success: #4ADE80;
+  --brand-warning: #FBBF24;
+  --brand-error: #F87171;
+  --brand-info: #60A5FA;
+
+  /* Downstream compatibility mappings */
+  --nordic-bg: var(--brand-bg);
+  --nordic-surface: var(--brand-surface);
+  --nordic-primary: var(--brand-primary);
+  --nordic-primary-hover: var(--brand-primary-hover);
+  --nordic-secondary: var(--brand-secondary);
+  --nordic-accent: var(--brand-accent);
+  --nordic-text: var(--brand-text);
+  --nordic-text-secondary: var(--brand-text-secondary);
+  --nordic-border: var(--brand-border);
+  --nordic-success: var(--brand-success);
+  --nordic-warning: var(--brand-warning);
+  --nordic-error: var(--brand-error);
+
+  --toast-success-bg: #052E16;
+  --toast-success-color: #4ADE80;
+  --toast-success-border: #14532D;
+  --toast-error-bg: #450A0A;
+  --toast-error-color: #FCA5A5;
+  --toast-error-border: #7F1D1D;
 
   /* Premium SaaS shadows for dark mode */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -86,6 +119,12 @@
   --color-slate-400: var(--nordic-text-secondary);
   --color-gray-400: var(--nordic-text-secondary);
   --color-gray-500: var(--nordic-text-secondary);
+
+  /* Secondary/inactive Slate theme tokens */
+  --color-slate-100: color-mix(in srgb, var(--nordic-surface) 50%, var(--nordic-bg));
+  --color-slate-300: color-mix(in srgb, var(--nordic-surface) 70%, var(--nordic-text));
+  --color-slate-350: color-mix(in srgb, var(--nordic-surface) 80%, var(--nordic-text));
+  --color-slate-850: color-mix(in srgb, var(--nordic-text) 85%, var(--nordic-surface));
   
   /* Border mappings */
   --color-slate-200: var(--nordic-border);
@@ -197,9 +236,48 @@
 body {
   background-color: var(--color-brand-bg-light);
   color: var(--color-text-dark);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Glassmorphism custom classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dark .glass-panel {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gradient-border-card {
+  position: relative;
+  border-radius: 20px;
+  background: var(--brand-surface);
+}
+
+.gradient-border-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(124, 58, 237, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.dark .gradient-border-card::before {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(167, 139, 250, 0.25));
+}
+
 
 /* ==========================================================================
    PREMIUM SaaS VISUAL POLISH & MICRO-INTERACTIONS
@@ -271,3 +349,147 @@ textarea:focus {
 .dark .bg-white.dark\:bg-gray-900:hover {
   border-color: color-mix(in srgb, var(--nordic-border) 70%, var(--nordic-text)) !important;
 }
+
+/* ==========================================================================
+   PREMIUM SaaS LAYOUT CUSTOM OVERRIDES (SIDEBAR, HERO, GLASS MODALS, TABLES)
+   ========================================================================== */
+
+/* 1. Sidebar Premium Styling (Glassmorphic floating styling) */
+aside {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: var(--nordic-text) !important;
+  border-right: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.dark aside {
+  background-color: rgba(11, 15, 25, 0.6) !important;
+  color: var(--nordic-text) !important;
+  border-right: 1px solid rgba(51, 65, 85, 0.5) !important;
+}
+
+aside h1 span {
+  color: var(--nordic-text) !important;
+}
+
+aside a {
+  color: var(--nordic-text-secondary) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+aside a.active {
+  background-color: var(--nordic-primary) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 16px rgba(37, 99, 235, 0.3) !important;
+  border-radius: 12px !important;
+}
+
+aside a:hover:not(.active) {
+  background-color: rgba(37, 99, 235, 0.08) !important;
+  color: var(--nordic-primary) !important;
+}
+
+.dark aside a:hover:not(.active) {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  color: var(--nordic-primary-hover) !important;
+}
+
+aside .bg-slate-800 {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.dark aside .bg-slate-800 {
+  background-color: rgba(30, 41, 59, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+aside button {
+  color: var(--nordic-text-secondary) !important;
+}
+
+aside button:hover {
+  color: var(--nordic-text) !important;
+  background-color: rgba(37, 99, 235, 0.08) !important;
+}
+
+.dark aside button:hover {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+aside .bg-blue-600 {
+  background-color: var(--nordic-primary) !important;
+}
+
+/* 2. Premium Hero Gradient Banner Card Override */
+div.bg-gradient-to-r.from-blue-950.to-indigo-900 {
+  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #06B6D4 100%) !important;
+  color: #FFFFFF !important;
+  position: relative;
+  overflow: hidden;
+  border: none !important;
+}
+
+div.bg-gradient-to-r.from-blue-950.to-indigo-900::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 60%;
+  height: 160%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, transparent 70%);
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+/* Glass capsule active badge inside Hero */
+div.bg-gradient-to-r.from-blue-950.to-indigo-900 span.bg-indigo-700 {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+/* Hero typography colors */
+div.bg-gradient-to-r.from-blue-950.to-indigo-900 h1 {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+div.bg-gradient-to-r.from-blue-950.to-indigo-900 p {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 3. Glass-inspired Modals, Popovers & Dialogs */
+div[role="dialog"], .modal-content {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: var(--shadow-xl) !important;
+  border-radius: 24px !important;
+}
+
+.dark div[role="dialog"], .dark .modal-content {
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* 4. Table Row Hover Highlight */
+tbody tr {
+  transition: background-color 0.15s ease !important;
+}
+
+tbody tr:hover {
+  background-color: color-mix(in srgb, var(--nordic-primary) 5%, transparent) !important;
+}
+
+/* 5. Dropdown Menu Overrides */
+.dropdown-menu, [role="menu"] {
+  background-color: var(--nordic-surface) !important;
+  border: 1px solid var(--nordic-border) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border-radius: 12px !important;
+}
