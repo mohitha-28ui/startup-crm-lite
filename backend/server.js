@@ -38,6 +38,8 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   "https://startup-crm-lite-ten.vercel.app",
   "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
   "http://localhost:3000"
 ].filter(Boolean);
 
@@ -161,9 +163,11 @@ app.use("/api/leads", leadRoutes);
  * Root Route
  */
 app.get("/", (req, res) => {
-  res.redirect(
-    process.env.FRONTEND_URL || "https://startup-crm-lite-ten.vercel.app"
-  );
+  res.json({
+    success: true,
+    message: "Startup CRM Lite Backend API is active and operational 🚀",
+    healthCheck: "/api/health"
+  });
 });
 
 /**
