@@ -6,6 +6,9 @@ dotenv.config();
 
 // Override local DNS resolver programmatically to prevent querySrv ECONNREFUSED issues in restricted local setups.
 try {
+  if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder("ipv4first");
+  }
   dns.setServers(["8.8.8.8", "1.1.1.1"]);
 } catch (e) {
   console.warn("⚠️ Public DNS servers could not be set programmatically:", e.message);

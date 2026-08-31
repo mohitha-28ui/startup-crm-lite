@@ -2,6 +2,12 @@
   "name": "startup-crm-lite-root",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "start": "npm --prefix backend run start",
+    "build": "npm --prefix frontend run build",
+    "dev": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",

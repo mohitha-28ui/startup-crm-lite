@@ -154,6 +154,19 @@ app.get("/api/health", (req, res) => {
 });
 
 /**
+ * Database Connection Middleware
+ */
+app.use(async (req, res, next) => {
+  try {
+    checkRequiredEnvVars();
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * API Routes
  */
 app.use("/api/auth", authRoutes);
@@ -213,17 +226,6 @@ const startServer = async () => {
 
 if (!process.env.VERCEL) {
   startServer();
-} else {
-  // In Vercel serverless environment, run basic startup check and establish DB connection middleware
-  checkRequiredEnvVars();
-  app.use(async (req, res, next) => {
-    try {
-      await connectDB();
-      next();
-    } catch (err) {
-      next(err);
-    }
-  });
 }
 
 export default app;

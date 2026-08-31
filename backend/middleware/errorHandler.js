@@ -10,6 +10,8 @@
  * @returns {Object} Express error response.
  */
 export const errorHandler = (err, req, res, next) => {
+  console.error("[API Error Handler]:", err);
+
   // Default values
   let statusCode = 500;
   let message = "Server error";

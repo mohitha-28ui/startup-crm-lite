@@ -59,15 +59,18 @@ api.interceptors.response.use(
 
     // Handle session expirations or unauthorized requests
     if (status === 401) {
-      const token = localStorage.getItem("crm-token");
-      if (token) {
-        localStorage.removeItem("crm-token");
-        toast.error("Session expired. Please login again.", {
-          id: "session-expired",
-        });
+      const isAuthEndpoint = error.config?.url?.includes("/auth/login") || error.config?.url?.includes("/auth/register");
+      if (!isAuthEndpoint) {
+        const token = localStorage.getItem("crm-token");
+        if (token) {
+          localStorage.removeItem("crm-token");
+          toast.error("Session expired. Please login again.", {
+            id: "session-expired",
+          });
+        }
+        // Programmatically redirect to login page
+        window.location.href = "/login";
       }
-      // Programmatically redirect to login page
-      window.location.href = "/login";
     }
 
     // Pass data along or encapsulate error messages
