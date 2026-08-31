@@ -11,7 +11,8 @@ const authService = {
    * @returns {Promise<Object>} The server response body containing user and token.
    */
   register: async (name, email, password) => {
-    const response = await api.post("/api/auth/register", { name, email, password });
+    const apiURL = import.meta.env.VITE_API_URL || "";
+    const response = await api.post(`${apiURL}/api/auth/register`, { name, email, password });
     return response.data;
   },
 
@@ -24,7 +25,8 @@ const authService = {
    * @returns {Promise<Object>} The server response body containing user and token.
    */
   login: async (email, password) => {
-    const response = await api.post("/api/auth/login", { email, password });
+    const apiURL = import.meta.env.VITE_API_URL || "";
+    const response = await api.post(`${apiURL}/api/auth/login`, { email, password });
     return response.data;
   },
 

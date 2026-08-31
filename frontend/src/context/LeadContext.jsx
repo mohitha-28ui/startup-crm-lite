@@ -50,10 +50,10 @@ export function LeadProvider({ children }) {
     try {
       const newLead = await leadService.createLead(leadData);
       setLeads((prevLeads) => [newLead, ...prevLeads]);
-      toast.success("Lead created successfully!");
+      toast.success("Lead added successfully.");
       return newLead;
     } catch (error) {
-      toast.error(error.message || "Failed to create lead");
+      toast.error("Unable to add lead. Please try again.");
       throw error;
     } finally {
       setIsLoading(false);

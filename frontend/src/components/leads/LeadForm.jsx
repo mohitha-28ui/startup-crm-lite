@@ -14,6 +14,7 @@ function LeadForm({ initialData = null, onSubmit, onCancel }) {
     status: initialData?.status || "New",
     source: initialData?.source || "Website",
     value: initialData?.value || "",
+    notes: initialData?.notes || "",
   });
 
   const [errors, setErrors] = useState({});
@@ -33,6 +34,19 @@ function LeadForm({ initialData = null, onSubmit, onCancel }) {
       nextErrors.email = "Email address is required";
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
       nextErrors.email = "Please enter a valid email address";
+    }
+
+    if (!form.phone.trim()) {
+      nextErrors.phone = "Phone number is required";
+    } else if (!/^\+?[0-9\s\-()]{7,20}$/.test(form.phone)) {
+      nextErrors.phone = "Please enter a valid phone number";
+    }
+
+    if (form.value.trim()) {
+      const numeric = parseFloat(form.value.replace(/[^0-9.-]+/g, ""));
+      if (isNaN(numeric)) {
+        nextErrors.value = "Deal value must be a numeric value";
+      }
     }
 
     setErrors(nextErrors);
@@ -133,16 +147,20 @@ function LeadForm({ initialData = null, onSubmit, onCancel }) {
         {/* Phone Input */}
         <div>
           <label htmlFor="lead-phone" className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
-            Phone Number
+            Phone Number <span className="text-red-500">*</span>
           </label>
           <input
             id="lead-phone"
             type="tel"
-            className="w-full p-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-950 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 transition-all duration-200 text-sm font-semibold"
+            className={`w-full p-3 border rounded-xl bg-slate-50/50 dark:bg-slate-950 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 transition-all duration-200 text-sm font-semibold ${
+              errors.phone ? "border-red-300 focus:ring-red-200/50" : "border-slate-200 dark:border-slate-800 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500"
+            }`}
             placeholder="+1 (555) 123-4567"
             value={form.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
+            aria-invalid={!!errors.phone}
           />
+          {errors.phone && <p className="text-xs text-red-500 mt-1.5 font-semibold">{errors.phone}</p>}
         </div>
       </div>
 
@@ -194,12 +212,31 @@ function LeadForm({ initialData = null, onSubmit, onCancel }) {
           <input
             id="lead-value"
             type="text"
-            className="w-full p-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-950 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 transition-all duration-200 text-sm font-semibold"
+            className={`w-full p-3 border rounded-xl bg-slate-50/50 dark:bg-slate-950 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 transition-all duration-200 text-sm font-semibold ${
+              errors.value ? "border-red-300 focus:ring-red-200/50" : "border-slate-200 dark:border-slate-800 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500"
+            }`}
             placeholder="E.g., 5000"
             value={form.value}
             onChange={(e) => handleChange("value", e.target.value)}
+            aria-invalid={!!errors.value}
           />
+          {errors.value && <p className="text-xs text-red-500 mt-1.5 font-semibold">{errors.value}</p>}
         </div>
+      </div>
+
+      {/* Notes Input */}
+      <div>
+        <label htmlFor="lead-notes" className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">
+          Notes / Comments
+        </label>
+        <textarea
+          id="lead-notes"
+          rows="3"
+          className="w-full p-3 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-950 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 focus:border-blue-500 transition-all duration-200 text-sm font-semibold"
+          placeholder="E.g., Met at local conference. Very interested in our enterprise tier."
+          value={form.notes}
+          onChange={(e) => handleChange("notes", e.target.value)}
+        />
       </div>
 
       {/* Action Buttons */}

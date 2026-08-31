@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const apiURL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const apiURL = import.meta.env.VITE_API_URL || "";
 
 const api = axios.create({
   baseURL: apiURL,
@@ -32,10 +32,10 @@ api.interceptors.response.use(
   (error) => {
     // Check if it's a network error (no response received)
     if (!error.response) {
-      const isLocalhost = apiURL.includes("localhost") || apiURL.includes("127.0.0.1");
+      const isLocalhost = apiURL && (apiURL.includes("localhost") || apiURL.includes("127.0.0.1"));
       const isHttps = window.location.protocol === "https:";
       
-      let debugMessage = `Connection failed to API URL: ${apiURL}. `;
+      let debugMessage = `Connection failed to API. `;
       if (isLocalhost && isHttps) {
         debugMessage += "Blocked by Mixed Content: Your browser blocks HTTP connections to localhost when loaded over HTTPS. ";
       } else {
@@ -44,14 +44,15 @@ api.interceptors.response.use(
       
       console.error("[CRM API Network Error]", debugMessage, error);
       
+      const displayUrl = isLocalhost ? "the server" : (apiURL || "the server");
       toast.error(
-        `Cannot connect to server at ${apiURL}. Verify server status, CORS headers, or network.`,
+        "Unable to connect to the server. Please try again.",
         {
           id: "network-error", // Avoid toast spamming
           duration: 6000,
         }
       );
-      return Promise.reject(new Error(`Cannot connect to server at ${apiURL}`));
+      return Promise.reject(new Error("Unable to connect to the server. Please try again."));
     }
 
     const { status, data } = error.response;

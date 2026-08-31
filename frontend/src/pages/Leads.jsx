@@ -74,34 +74,19 @@ function Leads() {
    * Submission handler for LeadForm.
    * @param {Object} formData - Form input values.
    */
-  const handleFormSubmit = useCallback((formData) => {
-    if (selectedLead) {
-      // Update Mode
-      updateLead(selectedLead.id, formData);
-      toast.success(`Updated lead "${formData.name}" successfully`, {
-        style: {
-          background: "var(--toast-success-bg)",
-          color: "var(--toast-success-color)",
-          border: "1px solid var(--toast-success-border)",
-          fontSize: "14px",
-          fontWeight: "600",
-        },
-      });
-    } else {
-      // Create Mode
-      addLead(formData);
-      toast.success(`Lead "${formData.name}" registered successfully`, {
-        style: {
-          background: "var(--toast-success-bg)",
-          color: "var(--toast-success-color)",
-          border: "1px solid var(--toast-success-border)",
-          fontSize: "14px",
-          fontWeight: "600",
-        },
-        icon: "🚀",
-      });
+  const handleFormSubmit = useCallback(async (formData) => {
+    try {
+      if (selectedLead) {
+        // Update Mode
+        await updateLead(selectedLead.id, formData);
+      } else {
+        // Create Mode
+        await addLead(formData);
+      }
+      handleCloseModal();
+    } catch (error) {
+      console.error("Failed to save lead:", error);
     }
-    handleCloseModal();
   }, [selectedLead, updateLead, addLead, handleCloseModal]);
 
   /**

@@ -113,7 +113,7 @@ export const createLead = async (req, res, next) => {
       console.log(`[createLead] User ${req.user._id} is creating a new lead for contact: ${req.body.name}`);
     }
 
-    const { name, company, email, phone, status, source, notes } = req.body;
+    const { name, company, email, phone, status, source, notes, value } = req.body;
 
     const lead = await Lead.create({
       name,
@@ -123,6 +123,7 @@ export const createLead = async (req, res, next) => {
       status,
       source,
       notes,
+      value: value || "$0",
       owner: req.user._id, // Enforce owner isolation
     });
 

@@ -56,6 +56,16 @@ export const leadSchema = new Schema(
       trim: true,
     },
     /**
+     * The financial deal value associated with the opportunity.
+     * Optional and trimmed.
+     * @type {String}
+     */
+    value: {
+      type: String,
+      trim: true,
+      default: "$0",
+    },
+    /**
      * The current pipeline status stage of the lead.
      * Must match exactly one of the designated status options from the frontend.
      * Defaults to 'New'.

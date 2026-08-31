@@ -16,6 +16,9 @@ try {
  * Logs success containing connection host, or exits the process on failure.
  */
 export const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
   try {
     // Mongoose options required by the specification
     const options = {
@@ -38,7 +41,10 @@ export const connectDB = async () => {
   } catch (error) {
     // On error: log the error and call process.exit(1)
     console.error(error);
-    process.exit(1);
+    if (!process.env.VERCEL) {
+      process.exit(1);
+    }
+    throw error;
   }
 };
 

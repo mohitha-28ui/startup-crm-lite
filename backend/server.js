@@ -211,6 +211,19 @@ const startServer = async () => {
   });
 };
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+} else {
+  // In Vercel serverless environment, run basic startup check and establish DB connection middleware
+  checkRequiredEnvVars();
+  app.use(async (req, res, next) => {
+    try {
+      await connectDB();
+      next();
+    } catch (err) {
+      next(err);
+    }
+  });
+}
 
 export default app;
