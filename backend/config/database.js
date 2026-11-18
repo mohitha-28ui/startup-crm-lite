@@ -56,14 +56,15 @@ export const connectDB = async () => {
     }
   }
 
-  // Local development fallback only (never in production)
-  if (process.env.NODE_ENV !== "production") {
+  // Fallback to in-memory MongoDB when explicitly requested or during local development
+  const allowInMemory = process.env.USE_IN_MEMORY_DB === "true" || process.env.NODE_ENV !== "production";
+  if (allowInMemory) {
     try {
       const { MongoMemoryServer } = await import("mongodb-memory-server");
       mongodInstance = await MongoMemoryServer.create();
       const memoryUri = mongodInstance.getUri();
       const conn = await mongoose.connect(memoryUri);
-      console.log(`✅ Local In-Memory MongoDB Connected: ${conn.connection.host} (${memoryUri})`);
+      console.log(`✅ In-Memory MongoDB Connected: ${conn.connection.host} (${memoryUri})`);
       return;
     } catch (fallbackError) {
       console.warn("ℹ️ In-memory MongoDB not available in this environment:", fallbackError.message);
