@@ -2,6 +2,14 @@
 
 An elegant, high-performance, and minimal CRM dashboard system built on the **MERN Stack** (MongoDB, Express, React, Node.js) with **Vite** and **Tailwind CSS v4**. Scaled and visually polished to match top-tier SaaS standards (Linear, Notion, Stripe, and Vercel) featuring micro-interactions, responsive grids, dynamic SVG charting, and full dark-theme adaptation.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-success?style=for-the-badge&logo=vercel)](https://startup-crm-lite-ten.vercel.app)
+[![Backend API](https://img.shields.io/badge/Backend%20API-Render-informational?style=for-the-badge&logo=render)](https://startup-crm-lite-backend.onrender.com)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/mohitha-28ui/startup-crm-lite)
+
+* **Live Frontend Website**: [https://startup-crm-lite-ten.vercel.app](https://startup-crm-lite-ten.vercel.app)
+* **Backend API Base**: [https://startup-crm-lite-backend.onrender.com](https://startup-crm-lite-backend.onrender.com)
+* **GitHub Repository**: [https://github.com/mohitha-28ui/startup-crm-lite](https://github.com/mohitha-28ui/startup-crm-lite)
+
 ---
 
 ## Badges
@@ -448,17 +456,43 @@ Global variables are handled by context hooks:
 
 ## Deployment Guide
 
-### Database (MongoDB Atlas)
-1. Sign up on MongoDB and create a database named `startup-crm`.
-2. Save the connection string and whitelist access IPs.
+### 1. Database (MongoDB Atlas)
+1. Log in to [MongoDB Atlas](https://www.mongodb.com/atlas) and create a free M0 cluster.
+2. In **Database Access**, create a database user with read/write privileges.
+3. In **Network Access**, add IP address `0.0.0.0/0` (allow access from anywhere) so Render can connect.
+4. Click **Connect** -> **Drivers (Node.js)** and copy your connection string:
+   ```env
+   mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/startup-crm?retryWrites=true&w=majority
+   ```
 
-### Backend (Railway / Render)
-1. Link your repo and configure `/backend` as root.
-2. Bind environment variables (`MONGODB_URI`, `JWT_SECRET`, etc.).
+### 2. Backend Web Service (Render)
+1. Log in to [Render Dashboard](https://dashboard.render.com/) and click **New +** -> **Web Service**.
+2. Connect your GitHub repository: `mohitha-28ui/startup-crm-lite`.
+3. Configure the service settings:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
+   - **Instance Type**: `Free`
+4. In **Environment Variables**, add:
+   - `NODE_ENV` = `production`
+   - `PORT` = `5000`
+   - `MONGODB_URI` = *(Your MongoDB Atlas connection URI)*
+   - `JWT_SECRET` = *(A secure random string, e.g. 32+ characters)*
+   - `JWT_EXPIRES_IN` = `7d`
+   - `FRONTEND_URL` = `https://startup-crm-lite-ten.vercel.app`
+5. Click **Deploy Web Service** and note your Render URL (e.g., `https://startup-crm-lite-backend.onrender.com`).
 
-### Frontend (Vercel / Netlify)
-1. Set the root directory to `/frontend`.
-2. Configure `VITE_API_URL` environment variables pointing to your backend address.
+### 3. Frontend Deployment (Vercel)
+1. Log in to [Vercel Dashboard](https://vercel.com/) and click **Add New...** -> **Project**.
+2. Select your repository: `startup-crm-lite`.
+3. Configure project settings:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. In **Environment Variables**, add:
+   - `VITE_API_URL` = *(Your deployed Render backend URL, e.g. `https://startup-crm-lite-backend.onrender.com`)*
+5. Click **Deploy**. Vercel will build and assign your production URL.
 
 ---
 

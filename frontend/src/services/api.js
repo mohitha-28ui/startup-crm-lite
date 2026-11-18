@@ -1,7 +1,8 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const apiURL = import.meta.env.VITE_API_URL || "";
+const rawURL = import.meta.env.VITE_API_URL || "";
+const apiURL = rawURL.endsWith("/") ? rawURL.slice(0, -1) : rawURL;
 
 const api = axios.create({
   baseURL: apiURL,

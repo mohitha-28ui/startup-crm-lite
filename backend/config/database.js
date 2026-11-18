@@ -7,76 +7,70 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ensure .env is loaded from the backend directory regardless of cwd
+// Ensure .env is loaded from backend directory if present
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 dotenv.config();
 
-// Override local DNS resolver programmatically to prevent querySrv ECONNREFUSED issues in restricted local setups.
+// Prefer IPv4 in DNS lookups if supported
 try {
   if (dns.setDefaultResultOrder) {
     dns.setDefaultResultOrder("ipv4first");
   }
-  dns.setServers(["8.8.8.8", "1.1.1.1"]);
 } catch (e) {
-  console.warn("⚠️ Public DNS servers could not be set programmatically:", e.message);
+  // Ignore DNS config warnings in restrictive environments
 }
 
 let mongodInstance = null;
 
 /**
- * Connects to MongoDB Atlas using Mongoose with automatic in-memory fallback.
- * Logs success containing connection host, or exits the process on failure.
+ * Connects to MongoDB Atlas using Mongoose.
+ * Uses persistent cloud database in production with optional local fallback.
  */
 export const connectDB = async () => {
   if (mongoose.connection.readyState >= 1) {
     return;
   }
 
-  // Mongoose options required by the specification
-  const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  };
-
-  // Sanitize options for Mongoose 6+ and Mongoose 9.x to avoid unsupported options MongoParseError
-  const sanitizedOptions = { ...options };
-  const mongooseMajor = parseInt(mongoose.version || "9", 10);
-  if (mongooseMajor >= 6) {
-    delete sanitizedOptions.useNewUrlParser;
-    delete sanitizedOptions.useUnifiedTopology;
-  }
-
   const uri = process.env.MONGODB_URI;
 
-  // Try Atlas/configured URI first
+  // In production, require persistent cloud database
+  if (process.env.NODE_ENV === "production" && !uri) {
+    console.error("❌ FATAL: MONGODB_URI environment variable is missing in production.");
+    throw new Error("MONGODB_URI is required in production mode.");
+  }
+
+  // Connect to persistent MongoDB (Atlas or local instance)
   if (uri && process.env.USE_IN_MEMORY_DB !== "true") {
     try {
       const conn = await mongoose.connect(uri, {
-        ...sanitizedOptions,
-        serverSelectionTimeoutMS: 5000,
+        serverSelectionTimeoutMS: 10000,
       });
-      console.log(`MongoDB Atlas Connected: ${conn.connection.host}`);
+      console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
       return;
     } catch (error) {
-      console.warn("⚠️ Could not connect to remote MongoDB Atlas:", error.message);
-      console.log("⚡ Starting local in-memory MongoDB fallback...");
+      console.error(`❌ MongoDB connection error: ${error.message}`);
+      if (process.env.NODE_ENV === "production") {
+        throw error;
+      }
+      console.warn("⚠️ Remote MongoDB connection failed. Attempting local development fallback...");
     }
   }
 
-  // Fallback to in-memory MongoDB server
-  try {
-    const { MongoMemoryServer } = await import("mongodb-memory-server");
-    mongodInstance = await MongoMemoryServer.create();
-    const memoryUri = mongodInstance.getUri();
-    const conn = await mongoose.connect(memoryUri, sanitizedOptions);
-    console.log(`✅ In-Memory MongoDB Connected: ${conn.connection.host} (${memoryUri})`);
-  } catch (fallbackError) {
-    console.error("❌ Failed to initialize database:", fallbackError);
-    if (!process.env.VERCEL) {
-      process.exit(1);
+  // Local development fallback only (never in production)
+  if (process.env.NODE_ENV !== "production") {
+    try {
+      const { MongoMemoryServer } = await import("mongodb-memory-server");
+      mongodInstance = await MongoMemoryServer.create();
+      const memoryUri = mongodInstance.getUri();
+      const conn = await mongoose.connect(memoryUri);
+      console.log(`✅ Local In-Memory MongoDB Connected: ${conn.connection.host} (${memoryUri})`);
+      return;
+    } catch (fallbackError) {
+      console.warn("ℹ️ In-memory MongoDB not available in this environment:", fallbackError.message);
     }
-    throw fallbackError;
   }
+
+  throw new Error("Could not establish a database connection. Please check MONGODB_URI.");
 };
 
 export const closeDB = async () => {
