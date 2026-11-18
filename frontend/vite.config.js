@@ -8,6 +8,15 @@ export default defineConfig({
     react(),       // Enables compilation support for React JSX syntax
     tailwindcss()  // Automatically processes Tailwind CSS directives on build
   ],
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     chunkSizeWarningLimit: 1600  // Suppress warnings for vendor chunks larger than 500kB
   }

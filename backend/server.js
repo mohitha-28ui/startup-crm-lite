@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 import rateLimit from "express-rate-limit";
 
 // Database Configuration
-import { connectDB } from "./config/database.js";
+import { connectDB, closeDB } from "./config/database.js";
 
 // Routes Imports
 import authRoutes from "./routes/authRoutes.js";
@@ -18,12 +18,13 @@ import leadRoutes from "./routes/leadRoutes.js";
 // Global Middleware Error Handler
 import { errorHandler } from "./middleware/errorHandler.js";
 
-// Load Environment Variables
-dotenv.config();
-
 // Resolve paths for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load Environment Variables
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+dotenv.config();
 
 // Initialize Express App
 const app = express();
@@ -195,7 +196,7 @@ const gracefulShutdown = async (signal) => {
   console.log(`Received ${signal}`);
 
   try {
-    await mongoose.connection.close();
+    await closeDB();
     process.exit(0);
   } catch (err) {
     console.error(err);
